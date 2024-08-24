@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-export default function SearchGames() {
+export default function SearchGames(props: React.ComponentProps<"div">) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -16,6 +16,7 @@ export default function SearchGames() {
       const search = e.target.value;
       const params = new URLSearchParams(searchParams);
 
+      params.set("page", "1");
       if (search) {
         params.set("name", search);
       } else {
@@ -27,7 +28,7 @@ export default function SearchGames() {
   );
 
   return (
-    <div>
+    <div {...props}>
       <input
         type="text"
         placeholder="Search for games"

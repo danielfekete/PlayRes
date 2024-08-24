@@ -35,3 +35,8 @@ export const getGames = async ({
     console.log(err);
   }
 };
+
+export const getGamesTotalPages = async () => {
+  const totalGames = await db.game.count();
+  return Math.ceil(totalGames / 30);
+};

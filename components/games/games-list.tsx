@@ -20,7 +20,7 @@ export default async function GamesList({
   }
 
   return (
-    <div>
+    <div className="grid grid-cols-3 gap-5">
       {games.map((game) => (
         <GameCard
           img={game.coverImage}
