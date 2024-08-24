@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Game {
+  id               String            @id @default(cuid())
+  name             String
+  coverImage       String
+  developer        Developer         @relation(fields: [developerId], references: [id]) // One-to-many relationship with Developer
+  publisher        Publisher         @relation(fields: [publisherId], references: [id]) // One-to-many relationship with Publisher
+  genres           GameGenre[] // Many-to-many relationship with Genre
+  platforms        GamePlatform[] // Many-to-many relationship with Platform
+  performances     Performance[] // One-to-many relationship with Performance
+  releaseDates      ReleaseDate[] // One-to-many relationship with release date
+  developerId      String
+  publisherId      String
+
+
+  @@unique([name, developerId, publisherId])
+  @@map("games")
+}
+
+// One developer can have many games, but each game can only have one developer one-to-many relationship
+model Developer {
+  id    String @id @default(cuid())
+  name  String @unique
+  games Game[] // One-to-many relationship with Game
+
+  @@map("developers")
+}
+
+// One publisher can have many games, but each game can only have one publisher one-to-many relationship
+model Publisher {
+  id    String @id @default(cuid())
+  name  String @unique
+  games Game[] // One-to-many relationship with Game
+
+  @@map("publishers")
+}
+
+// One genre can have many games and one game can have many genres many-to-many relationship
+model Genre {
+  id    String      @id @default(cuid())
+  name  String      @unique
+  games GameGenre[] // Many-to-many relationship with Game
+
+  @@map("genres")
+}
+
+// Many-to-many relation between Game and Genre
+model GameGenre {
+  gameId  String
+  genreId String
+  game    Game   @relation(fields: [gameId], references: [id])
+  genre   Genre  @relation(fields: [genreId], references: [id])
+
+  @@id([gameId, genreId])
+  @@map("game_genres")
+}
+
+// One platform can have many games and one game can have many platforms many-to-many relationship
+model Platform {
+  id           String         @id @default(cuid())
+  name         String         @unique
+  logo         String
+  games        GamePlatform[] // Relation to GamePlatform for many-to-many relationship with games
+  performances Performance[] // Relation to Performance one-to-many relationship with performances
+
+  @@map("platforms")
+}
+
+// Many-to-many relation between Game and Platform
+model GamePlatform {
+  gameId     String
+  platformId String
+  game       Game     @relation(fields: [gameId], references: [id])
+  platform   Platform @relation(fields: [platformId], references: [id])
+
+  @@id([gameId, platformId])
+  @@map("game_platforms")
+}
+
+// One performance can have one platform and one platform can have many performances one-to-many relationship
+// One performance can have one game and one game can have many performances one-to-many relationship
+model Performance {
+  id         String   @id @default(cuid())
+  frameRate  String
+  resolution String
+  hdr        Boolean
+  notes      String? // Optional field for additional notes
+  gameId     String
+  game       Game     @relation(fields: [gameId], references: [id])
+  platformId String
+  platform   Platform @relation(fields: [platformId], references: [id])
+
+  @@map("performances")
+}
+
+// One release date can have multiple games and one game can have many release dates one-to-many relationship
+model ReleaseDate {
+  id     String            @id @default(cuid())
+  date   DateTime
+  region String
+  gameId String
+  game  Game            @relation(fields: [gameId], references: [id])
+
+  @@unique([date, region, gameId])
+  @@map("release_dates")
+}
+
+
