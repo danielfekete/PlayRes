@@ -18,7 +18,7 @@ model Game {
   id               String            @id @default(cuid())
   name             String
   coverImage       String
-  copiesSold       Int
+  copiesSold       Int?
   developer        Developer         @relation(fields: [developerId], references: [id]) // One-to-many relationship with Developer
   publisher        Publisher         @relation(fields: [publisherId], references: [id]) // One-to-many relationship with Publisher
   genres           GameGenre[] // Many-to-many relationship with Genre

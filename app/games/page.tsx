@@ -2,6 +2,7 @@ import FilterGames from "@/components/games/filter-games";
 import GamesList from "@/components/games/games-list";
 import GamesPagination from "@/components/games/games-pagination";
 import SearchGames from "@/components/games/search-games";
+import SortGames from "@/components/games/sort-games";
 import { getDevelopers } from "@/data/developers";
 import { getGamesTotalPages } from "@/data/games";
 import { getGenres } from "@/data/genres";
@@ -41,8 +42,11 @@ export default async function Games({
       {/* A filter component to filter games based on genre */}
       {/* <FilterGames /> */}
       {/* Top pagination */}
-      <div className="mt-12">
-        <GamesPagination totalPages={totalPages} />
+      <div className="mt-12 space-y-6">
+        <div>
+          <GamesPagination totalPages={totalPages} />
+          <SortGames />
+        </div>
         {/* A list of games */}
         <GamesList searchParams={searchParams} />
         {/* Bottom pagination */}

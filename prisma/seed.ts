@@ -157,6 +157,7 @@ async function main() {
       platforms: {
         create: [{ platformId: ps.id }],
       },
+      copiesSold: 15_000_000,
       releaseDates: {
         create: [
           {
@@ -189,6 +190,7 @@ async function main() {
     },
     update: {},
     create: {
+      copiesSold: 8_400_000,
       name: "Horizon Forbidden West",
       coverImage:
         "https://cdn.mobygames.com/covers/10495868-horizon-ii-forbidden-west-playstation-5-front-cover.jpg",
@@ -233,6 +235,7 @@ async function main() {
     update: {},
     create: {
       name: "Starfield",
+      copiesSold: 3_000_000,
       coverImage:
         "https://cdn.mobygames.com/covers/17586252-starfield-windows-apps-front-cover.jpg",
       developerId: bethesdaGameStudios.id,
@@ -282,6 +285,7 @@ async function main() {
     },
     update: {},
     create: {
+      copiesSold: 20_610_000,
       name: "The Legend of Zelda: Tears of the Kingdom",
       coverImage:
         "https://cdn.mobygames.com/covers/17111253-the-legend-of-zelda-tears-of-the-kingdom-nintendo-switch-front-c.jpg",
@@ -326,6 +330,7 @@ async function main() {
     update: {},
     create: {
       name: "Forza Horizon 5",
+      copiesSold: 8_000_000,
       coverImage:
         "https://cdn.mobygames.com/covers/10095777-forza-horizon-5-windows-apps-front-cover.jpg",
       developerId: playgroundGames.id,

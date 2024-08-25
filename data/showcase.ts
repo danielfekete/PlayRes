@@ -21,6 +21,8 @@ export const getRecentlyReleased = async () => {
       take: 6,
     });
 
+    console.log(recentlyReleased);
+
     return recentlyReleased;
   } catch (e) {
     console.error(e);
@@ -29,7 +31,7 @@ export const getRecentlyReleased = async () => {
 
 // export const getRecentlyUpdated = async () => {}
 
-export const systemSellers = async () => {
+export const getSystemSellers = async () => {
   const take = 2;
   try {
     // Best selling 2 games on PlayStation
@@ -39,6 +41,11 @@ export const systemSellers = async () => {
       },
       where: {
         platforms: {
+          every: {
+            platform: {
+              name: "PlayStation",
+            },
+          },
           some: {
             platform: {
               name: "PlayStation",
@@ -63,6 +70,11 @@ export const systemSellers = async () => {
       },
       where: {
         platforms: {
+          every: {
+            platform: {
+              name: "Xbox",
+            },
+          },
           some: {
             platform: {
               name: "Xbox",
@@ -87,6 +99,11 @@ export const systemSellers = async () => {
       },
       where: {
         platforms: {
+          every: {
+            platform: {
+              name: "Nintendo",
+            },
+          },
           some: {
             platform: {
               name: "Nintendo",
@@ -105,6 +122,30 @@ export const systemSellers = async () => {
     });
 
     return [...bestSellingPS, ...bestSellingXbox, ...bestSellingNintendo];
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const getRecentlyUpdated = async () => {
+  try {
+    const recentlyUpdated = await db.game.findMany({
+      include: {
+        platforms: {
+          include: {
+            platform: true,
+          },
+        },
+        performances: {
+          orderBy: {
+            updated: "desc",
+          },
+        },
+      },
+      take: 6,
+    });
+
+    return recentlyUpdated;
   } catch (e) {
     console.error(e);
   }
