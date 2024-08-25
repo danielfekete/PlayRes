@@ -18,6 +18,7 @@ model Game {
   id               String            @id @default(cuid())
   name             String
   coverImage       String
+  copiesSold       Int
   developer        Developer         @relation(fields: [developerId], references: [id]) // One-to-many relationship with Developer
   publisher        Publisher         @relation(fields: [publisherId], references: [id]) // One-to-many relationship with Publisher
   genres           GameGenre[] // Many-to-many relationship with Genre
@@ -70,13 +71,24 @@ model GameGenre {
   @@map("game_genres")
 }
 
+// One platform has many consoles, but each console can only have one platform one-to-many relationship
+model Console{
+  id         String   @id @default(cuid())
+  name       String   @unique
+  platformId String
+  platform   Platform @relation(fields: [platformId], references: [id])
+  performances Performance[] // One-to-many relationship with Performance
+
+  @@map("consoles")
+}
+
 // One platform can have many games and one game can have many platforms many-to-many relationship
 model Platform {
   id           String         @id @default(cuid())
   name         String         @unique
   logo         String
   games        GamePlatform[] // Relation to GamePlatform for many-to-many relationship with games
-  performances Performance[] // Relation to Performance one-to-many relationship with performances
+  consoles     Console[]      // Relation to Console one-to-many relationship with consoles
 
   @@map("platforms")
 }
@@ -92,18 +104,21 @@ model GamePlatform {
   @@map("game_platforms")
 }
 
-// One performance can have one platform and one platform can have many performances one-to-many relationship
+// One performance can have one console and one console can have many performances one-to-many relationship
 // One performance can have one game and one game can have many performances one-to-many relationship
 model Performance {
   id         String   @id @default(cuid())
   frameRate  String
   resolution String
-  hdr        Boolean
+  updated    DateTime  @default(now())
+  hdr        Boolean?  @default(false)
+  rayTracing Boolean?  @default(false)
+  docked     Boolean?  @default(false)
   notes      String? // Optional field for additional notes
   gameId     String
   game       Game     @relation(fields: [gameId], references: [id])
-  platformId String
-  platform   Platform @relation(fields: [platformId], references: [id])
+  consoleId String
+  console   Console @relation(fields: [consoleId], references: [id])
 
   @@map("performances")
 }

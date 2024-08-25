@@ -33,18 +33,29 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 interface ComboboxProps {
   items: { value: string; label: string }[];
-  selected: string[];
+  value?: string[];
+  defaultValue?: string[];
   onSelect: (selected: string[]) => void;
 }
 
-export function Combobox({ items, selected, onSelect }: ComboboxProps) {
+export function Combobox({
+  items,
+  value,
+  defaultValue,
+  onSelect,
+}: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState(defaultValue || []);
+
+  useEffect(() => {
+    setSelected(value || []);
+  }, [value]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -77,12 +88,16 @@ export function Combobox({ items, selected, onSelect }: ComboboxProps) {
                   onSelect={(currentValue) => {
                     if (selected.includes(currentValue)) {
                       // Deselect if already selected
-                      onSelect(
-                        selected.filter((item) => item !== currentValue)
+                      const newValue = selected.filter(
+                        (item) => item !== currentValue
                       );
+                      setSelected(newValue);
+                      onSelect(newValue);
                     } else {
                       // Select if not already selected
-                      onSelect([...selected, currentValue]);
+                      const newValue = [...selected, currentValue];
+                      onSelect(newValue);
+                      setSelected(newValue);
                     }
                   }}
                 >

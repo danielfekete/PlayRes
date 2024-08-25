@@ -4,28 +4,48 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Platforms
-  const ps5 = await prisma.platform.upsert({
+  const ps = await prisma.platform.upsert({
+    where: { name: "PlayStation" },
+    update: {},
+    create: { name: "PlayStation", logo: "/playstation.png" },
+  });
+
+  const xbox = await prisma.platform.upsert({
+    where: { name: "Xbox", logo: "/xbox.png" },
+    update: {},
+    create: { name: "Xbox", logo: "/xbox.png" },
+  });
+
+  const nintendo = await prisma.platform.upsert({
+    where: { name: "Nintendo", logo: "/nintendo.png" },
+    update: {},
+    create: { name: "Nintendo", logo: "/nintendo.png" },
+  });
+
+  // Consoles
+
+  const ps5 = await prisma.console.upsert({
     where: { name: "PlayStation 5" },
     update: {},
-    create: { name: "PlayStation 5" },
+    create: { name: "PlayStation 5", platformId: ps.id },
   });
 
-  const xboxSeriesX = await prisma.platform.upsert({
+  const xboxSeriesX = await prisma.console.upsert({
     where: { name: "Xbox Series X" },
     update: {},
-    create: { name: "Xbox Series X" },
+    create: { name: "Xbox Series X", platformId: xbox.id },
   });
 
-  const xboxSeriesS = await prisma.platform.upsert({
+  const xboxSeriesS = await prisma.console.upsert({
     where: { name: "Xbox Series S" },
     update: {},
-    create: { name: "Xbox Series S" },
+    create: { name: "Xbox Series S", platformId: xbox.id },
   });
 
-  const nsw = await prisma.platform.upsert({
+  const nsw = await prisma.console.upsert({
     where: { name: "Nintendo Switch" },
     update: {},
-    create: { name: "Nintendo Switch" },
+    create: { name: "Nintendo Switch", platformId: nintendo.id },
   });
 
   // Genres
@@ -53,7 +73,7 @@ async function main() {
     create: { name: "Hack and slash" },
   });
 
-  // Developers & Publishers
+  // Developers
   const santaMonicaStudio = await prisma.developer.upsert({
     where: { name: "Santa Monica Studio" },
     update: {},
@@ -84,6 +104,13 @@ async function main() {
     create: { name: "Playground Games" },
   });
 
+  const idSoftware = await prisma.developer.upsert({
+    where: { name: "id Software" },
+    update: {},
+    create: { name: "id Software" },
+  });
+
+  // Publishers
   const sonyInteractiveEntertainment = await prisma.publisher.upsert({
     where: { name: "Sony Interactive Entertainment" },
     update: {},
@@ -128,7 +155,7 @@ async function main() {
         create: [{ genreId: actionAdventure.id }, { genreId: hackAndSlash.id }],
       },
       platforms: {
-        create: [{ platformId: ps5.id }],
+        create: [{ platformId: ps.id }],
       },
       releaseDates: {
         create: [
@@ -145,7 +172,7 @@ async function main() {
             resolution: "4K",
             hdr: true,
             notes: "Enhanced for PlayStation 5",
-            platformId: ps5.id,
+            consoleId: ps5.id,
           },
         ],
       },
@@ -171,7 +198,7 @@ async function main() {
         create: [{ genreId: actionAdventure.id }, { genreId: rpg.id }],
       },
       platforms: {
-        create: [{ platformId: ps5.id }],
+        create: [{ platformId: ps.id }],
       },
       releaseDates: {
         create: [
@@ -188,7 +215,7 @@ async function main() {
             resolution: "4K",
             hdr: true,
             notes: "Performance mode available",
-            platformId: ps5.id,
+            consoleId: ps5.id,
           },
         ],
       },
@@ -214,10 +241,7 @@ async function main() {
         create: [{ genreId: rpg.id }, { genreId: actionAdventure.id }],
       },
       platforms: {
-        create: [
-          { platformId: xboxSeriesX.id },
-          { platformId: xboxSeriesS.id },
-        ],
+        create: [{ platformId: xbox.id }],
       },
       releaseDates: {
         create: [
@@ -234,14 +258,14 @@ async function main() {
             resolution: "4K",
             hdr: true,
             notes: "Optimized for Xbox Series X",
-            platformId: xboxSeriesX.id,
+            consoleId: xboxSeriesX.id,
           },
           {
             frameRate: "locked 30FPS",
             resolution: "1080p",
             hdr: false,
             notes: "Optimized for Xbox Series S",
-            platformId: xboxSeriesS.id,
+            consoleId: xboxSeriesS.id,
           },
         ],
       },
@@ -267,7 +291,7 @@ async function main() {
         create: [{ genreId: actionAdventure.id }, { genreId: rpg.id }],
       },
       platforms: {
-        create: [{ platformId: nsw.id }],
+        create: [{ platformId: nintendo.id }],
       },
       releaseDates: {
         create: [
@@ -284,7 +308,7 @@ async function main() {
             resolution: "Dynamic 720p-900p",
             hdr: false,
             notes: "Performance varies in large areas",
-            platformId: nsw.id,
+            consoleId: nsw.id,
           },
         ],
       },
@@ -310,10 +334,7 @@ async function main() {
         create: [{ genreId: racing.id }],
       },
       platforms: {
-        create: [
-          { platformId: xboxSeriesX.id },
-          { platformId: xboxSeriesS.id },
-        ],
+        create: [{ platformId: xbox.id }],
       },
       releaseDates: {
         create: [
@@ -330,14 +351,91 @@ async function main() {
             resolution: "4K",
             hdr: true,
             notes: "Performance mode available",
-            platformId: xboxSeriesX.id,
+            consoleId: xboxSeriesX.id,
           },
           {
             frameRate: "target 60FPS",
             resolution: "1080p",
             hdr: false,
             notes: "Performance mode available",
-            platformId: xboxSeriesS.id,
+            consoleId: xboxSeriesS.id,
+          },
+        ],
+      },
+    },
+  });
+
+  const doomEternal = await prisma.game.upsert({
+    where: {
+      name_developerId_publisherId: {
+        name: "Doom Eternal",
+        developerId: idSoftware.id,
+        publisherId: bethesdaSoftworks.id,
+      },
+    },
+    update: {},
+    create: {
+      name: "Doom Eternal",
+      coverImage:
+        "https://cdn.mobygames.com/covers/8674053-doom-eternal-windows-inside-cover.jpg",
+      developerId: idSoftware.id,
+      publisherId: bethesdaSoftworks.id,
+      genres: {
+        create: [{ genreId: hackAndSlash.id }],
+      },
+      platforms: {
+        create: [
+          { platformId: xbox.id },
+          { platformId: ps.id },
+          { platformId: nintendo.id },
+        ],
+      },
+      releaseDates: {
+        create: [
+          {
+            date: new Date("2020-03-20"),
+            region: "Worldwide",
+          },
+        ],
+      },
+      performances: {
+        create: [
+          {
+            frameRate: "target 60FPS",
+            resolution: "4K",
+            hdr: true,
+            notes: "Performance mode available",
+            consoleId: xboxSeriesX.id,
+          },
+          {
+            frameRate: "target 60FPS",
+            resolution: "1080p",
+            hdr: false,
+            notes: "Performance mode available",
+            consoleId: xboxSeriesS.id,
+          },
+          {
+            frameRate: "target 60FPS",
+            resolution: "4K",
+            hdr: true,
+            notes: "Performance mode available",
+            consoleId: ps5.id,
+          },
+          {
+            frameRate: "target 60FPS",
+            resolution: "1080p",
+            docked: true,
+            hdr: false,
+
+            consoleId: nsw.id,
+          },
+          {
+            frameRate: "target 60FPS",
+            resolution: "720p",
+            docked: false,
+            hdr: false,
+
+            consoleId: nsw.id,
           },
         ],
       },
@@ -350,6 +448,7 @@ async function main() {
     starfield,
     zeldaTearsOfTheKingdom,
     forzaHorizon5,
+    doomEternal,
   });
 }
 

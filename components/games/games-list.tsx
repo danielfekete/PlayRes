@@ -25,7 +25,7 @@ export default async function GamesList({
         <GameCard
           img={game.coverImage}
           name={game.name}
-          platforms={[]}
+          platforms={game.platforms.map(({ platform }) => platform)}
           key={game.id}
         />
       ))}

@@ -17,6 +17,11 @@ export const getGames = async ({
     const games = await db.game.findMany({
       include: {
         publisher: true,
+        platforms: {
+          include: {
+            platform: true,
+          },
+        },
       },
       where: {
         name: {

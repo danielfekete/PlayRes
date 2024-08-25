@@ -20,14 +20,17 @@ To read more about using these font, please visit the Next.js documentation:
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
+import { Platform } from "@prisma/client";
 
 interface GameCardProps {
   name: string;
-  platforms: string[];
+  platforms: Platform[];
   img: string;
 }
 
 export function GameCard({ img, platforms, name }: GameCardProps) {
+  console.log("GameCard", { img, platforms, name });
+
   return (
     <Card className="w-full max-w-md rounded-lg overflow-hidden shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
       <Link href="#" className="block" prefetch={false}>
@@ -36,98 +39,13 @@ export function GameCard({ img, platforms, name }: GameCardProps) {
       <div className="p-4 bg-background">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-bold line-clamp-1">{name}</h3>
-          <div className="flex flex-col items-center space-x-2 text-muted-foreground">
-            <Image
-              src="/nintendo.png"
-              alt="Nintendo Switch"
-              width={30}
-              height={30}
-            />
-            <Image
-              src="/playstation.png"
-              alt="Nintendo Switch"
-              width={30}
-              height={30}
-            />
-            <Image
-              src="/xbox.png"
-              alt="Nintendo Switch"
-              width={30}
-              height={30}
-            />
-          </div>
         </div>
-        {/* <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-          Cyberpunk 2077 is an open-world, action-adventure story set in Night
-          City, a megalopolis obsessed with power, glamour and body
-          modification.
-        </p> */}
+        <div className="flex gap-2">
+          {platforms.map(({ id, logo, name }) => (
+            <Image key={id} src={logo} alt={name} width={20} height={20} />
+          ))}
+        </div>
       </div>
     </Card>
-  );
-}
-
-function ComputerIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="14" height="8" x="5" y="2" rx="2" />
-      <rect width="20" height="8" x="2" y="14" rx="2" />
-      <path d="M6 18h2" />
-      <path d="M12 18h6" />
-    </svg>
-  );
-}
-
-function GamepadIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="6" x2="10" y1="12" y2="12" />
-      <line x1="8" x2="8" y1="10" y2="14" />
-      <line x1="15" x2="15.01" y1="13" y2="13" />
-      <line x1="18" x2="18.01" y1="11" y2="11" />
-      <rect width="20" height="12" x="2" y="6" rx="2" />
-    </svg>
-  );
-}
-
-function SmartphoneIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
-      <path d="M12 18h.01" />
-    </svg>
   );
 }

@@ -2,8 +2,11 @@ import FilterGames from "@/components/games/filter-games";
 import GamesList from "@/components/games/games-list";
 import GamesPagination from "@/components/games/games-pagination";
 import SearchGames from "@/components/games/search-games";
+import { getDevelopers } from "@/data/developers";
 import { getGamesTotalPages } from "@/data/games";
+import { getGenres } from "@/data/genres";
 import { getPlatforms } from "@/data/platforms";
+import { getPublishers } from "@/data/publishers";
 
 export default async function Games({
   searchParams,
@@ -16,8 +19,9 @@ export default async function Games({
 }) {
   const totalPages = (await getGamesTotalPages()) || 0;
   const platforms = (await getPlatforms()) || [];
-
-  console.log("platforms", platforms);
+  const publishers = (await getPublishers()) || [];
+  const developers = (await getDevelopers()) || [];
+  const genres = (await getGenres()) || [];
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-24 py-11 relative ">
@@ -26,10 +30,10 @@ export default async function Games({
         <div className="flex gap-3">
           <SearchGames className="flex-1" />
           <FilterGames
-            platforms={platforms.map(({ id, name }) => ({
-              value: id,
-              label: name,
-            }))}
+            platforms={platforms}
+            developers={developers}
+            genres={genres}
+            publishers={publishers}
           />
         </div>
       </div>
