@@ -2,16 +2,16 @@ import { db } from "@/lib/db";
 
 export const getGames = async ({
   name,
-  //   genre,
-  developerId,
-  publisherId,
-}: //   platforms,
-{
+  genres,
+  developers,
+  publishers,
+  platforms,
+}: {
   name?: string;
-  //   genre?: string;
-  developerId?: string;
-  publisherId?: string;
-  //   platforms?: string;
+  genres?: string[];
+  developers?: string[];
+  publishers?: string[];
+  platforms?: string[];
 }) => {
   try {
     const games = await db.game.findMany({
@@ -24,12 +24,35 @@ export const getGames = async ({
         },
       },
       where: {
+        // Game name
         name: {
           contains: name,
           mode: "insensitive",
         },
-        developerId,
-        publisherId,
+        // Publisher
+        publisherId: {
+          in: publishers,
+        },
+        // Genres
+        genres: {
+          some: {
+            genreId: {
+              in: genres,
+            },
+          },
+        },
+        // Developer
+        developerId: {
+          in: developers,
+        },
+        // Platforms
+        platforms: {
+          some: {
+            platformId: {
+              in: platforms,
+            },
+          },
+        },
       },
       orderBy: {
         name: "asc",

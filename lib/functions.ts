@@ -36,3 +36,6 @@ export const mapGames = ({
   coverImage,
   platforms: platforms.map(mapPlatforms),
 });
+
+export const getArrayParamValue = (param?: string | string[]) =>
+  param ? (Array.isArray(param) ? param : [param]) : undefined;

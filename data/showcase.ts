@@ -21,8 +21,6 @@ export const getRecentlyReleased = async () => {
       take: 6,
     });
 
-    console.log(recentlyReleased);
-
     return recentlyReleased;
   } catch (e) {
     console.error(e);

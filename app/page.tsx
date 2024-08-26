@@ -1,17 +1,10 @@
-import SearchGames from "@/components/games/search-games";
-import Showcase from "@/components/showcase";
-import {
-  getRecentlyReleased,
-  getRecentlyUpdated,
-  getSystemSellers,
-} from "@/data/showcase";
-import { mapGames } from "@/lib/functions";
+import RecentlyReleased from "@/components/showcase/recently-released";
+import RecentlyUpdated from "@/components/showcase/recently-updated";
+import SystemSellers from "@/components/showcase/system-sellers";
+import { ShowcaseSkeleton } from "@/components/skeletons";
+import { Suspense } from "react";
 
 export default async function Home() {
-  const recentlyReleased = ((await getRecentlyReleased()) || []).map(mapGames);
-  const systemSellers = ((await getSystemSellers()) || []).map(mapGames);
-  const recentlyUpdated = ((await getRecentlyUpdated()) || []).map(mapGames);
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       {/* TODO: Live search bar */}
@@ -19,13 +12,19 @@ export default async function Home() {
         <form></form>
       </div> */}
       {/* Showcases */}
-      <div className="space-y-12">
+      <div className="space-y-12 w-full">
         {/* Recently released */}
-        <Showcase title="Recently Released" games={recentlyReleased} />
+        <Suspense fallback={<ShowcaseSkeleton />}>
+          <RecentlyReleased />
+        </Suspense>
         {/* Performance recently updated */}
-        <Showcase title="Recently Updated" games={recentlyUpdated} />
+        <Suspense fallback={<ShowcaseSkeleton />}>
+          <RecentlyUpdated />
+        </Suspense>
         {/* System sellers */}
-        <Showcase title="System Sellers" games={systemSellers} />
+        <Suspense fallback={<ShowcaseSkeleton />}>
+          <SystemSellers />
+        </Suspense>
       </div>
     </main>
   );

@@ -17,35 +17,42 @@ To read more about using these font, please visit the Next.js documentation:
 - App Directory: https://nextjs.org/docs/app/building-your-application/optimizing/fonts
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
 import { Platform } from "@prisma/client";
 
 interface GameCardProps {
+  id: string;
   name: string;
   platforms: Platform[];
   img: string;
 }
 
-export function GameCard({ img, platforms, name }: GameCardProps) {
-  console.log("GameCard", { img, platforms, name });
-
+export function GameCard({ img, platforms, name, id }: GameCardProps) {
   return (
     <Card className="w-full max-w-md rounded-lg overflow-hidden shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl">
-      <Link href="#" className="block" prefetch={false}>
-        <img src={img} alt={name} className=" h-[200px] " />
+      <Link href={`/games/${id}`}>
+        <CardContent className="grid grid-cols-2 p-0">
+          <div className="h-full w-full">
+            <img
+              src={img}
+              alt={name}
+              className="object-fit w-full h-full max-h-[250px]"
+            />
+          </div>
+          <div className=" p-4 bg-background">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold line-clamp-1">{name}</h3>
+            </div>
+            <div className="flex gap-2">
+              {platforms.map(({ id, logo, name }) => (
+                <Image key={id} src={logo} alt={name} width={20} height={20} />
+              ))}
+            </div>
+          </div>
+        </CardContent>
       </Link>
-      <div className="p-4 bg-background">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xl font-bold line-clamp-1">{name}</h3>
-        </div>
-        <div className="flex gap-2">
-          {platforms.map(({ id, logo, name }) => (
-            <Image key={id} src={logo} alt={name} width={20} height={20} />
-          ))}
-        </div>
-      </div>
     </Card>
   );
 }

@@ -36,12 +36,14 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
+import { Badge } from "./ui/badge";
 
 interface ComboboxProps {
   items: { value: string; label: string }[];
   value?: string[];
   defaultValue?: string[];
   onSelect: (selected: string[]) => void;
+  emptyText?: string;
 }
 
 export function Combobox({
@@ -49,6 +51,7 @@ export function Combobox({
   value,
   defaultValue,
   onSelect,
+  emptyText = "Select...",
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState(defaultValue || []);
@@ -64,14 +67,17 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-full justify-between items-center h-auto"
         >
-          {selected.length
-            ? items
-                .filter(({ value }) => selected.includes(value))
-                .map(({ label }) => label)
-                .join(", ")
-            : "Select framework..."}
+          <div className="flex justify-between items-center w-full">
+            <div className="flex flex-wrap items-center">
+              {selected.length
+                ? items
+                    .filter(({ value }) => selected.includes(value))
+                    .map(({ label }) => <Badge>{label}</Badge>)
+                : emptyText}
+            </div>
+          </div>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
