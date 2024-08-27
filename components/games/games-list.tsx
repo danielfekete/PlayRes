@@ -1,5 +1,5 @@
 import React from "react";
-import { GameCard } from "./game-card";
+import GameCard from "./game-card";
 import { getGames } from "@/data/games";
 import { getArrayParamValue } from "@/lib/functions";
 import GamesPagination from "./games-pagination";
@@ -30,14 +30,15 @@ export default async function GamesList({
     <div>
       {/* Top pagination */}
       <GamesPagination totalPages={totalPages} />
-      <div className="grid grid-cols-3 gap-5 p-4">
+      <div className="grid grid-cols-2 gap-5 p-4">
         {games.map((game) => (
           <GameCard
             key={game.id}
             id={game.id}
             img={game.coverImage}
             name={game.name}
-            platforms={game.platforms.map(({ platform }) => platform)}
+            platforms={game.platforms}
+            tags={game.performanceTags}
           />
         ))}
       </div>

@@ -169,11 +169,25 @@ async function main() {
       performances: {
         create: [
           {
-            frameRate: "locked 30FPS",
-            resolution: "4K",
             hdr: true,
-            notes: "Enhanced for PlayStation 5",
+            threeDAudio: true,
             consoleId: ps5.id,
+            performanceModes: {
+              create: [
+                {
+                  frameRate: "target 60FPS",
+                  resolution: "4K",
+                  name: "Performance mode",
+                  rayTracing: false,
+                },
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "4K",
+                  name: "Quality mode",
+                  rayTracing: false,
+                },
+              ],
+            },
           },
         ],
       },
@@ -213,11 +227,25 @@ async function main() {
       performances: {
         create: [
           {
-            frameRate: "target 60FPS",
-            resolution: "4K",
             hdr: true,
-            notes: "Performance mode available",
             consoleId: ps5.id,
+            threeDAudio: true,
+            performanceModes: {
+              create: [
+                {
+                  frameRate: "target 60FPS",
+                  resolution: "4K",
+                  name: "Performance mode",
+                  rayTracing: false,
+                },
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "4K",
+                  name: "Quality mode",
+                  rayTracing: false,
+                },
+              ],
+            },
           },
         ],
       },
@@ -257,18 +285,46 @@ async function main() {
       performances: {
         create: [
           {
-            frameRate: "locked 30FPS",
-            resolution: "4K",
             hdr: true,
-            notes: "Optimized for Xbox Series X",
+            threeDAudio: true,
             consoleId: xboxSeriesX.id,
+            performanceModes: {
+              create: [
+                {
+                  frameRate: "target 60FPS",
+                  resolution: "4K",
+                  name: "Performance mode",
+                  rayTracing: true,
+                },
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "4K",
+                  name: "Quality mode",
+                  rayTracing: false,
+                },
+              ],
+            },
           },
           {
-            frameRate: "locked 30FPS",
-            resolution: "1080p",
             hdr: false,
-            notes: "Optimized for Xbox Series S",
+            threeDAudio: false,
             consoleId: xboxSeriesS.id,
+            performanceModes: {
+              create: [
+                {
+                  frameRate: "target 60FPS",
+                  resolution: "1080p",
+                  name: "Performance mode",
+                  rayTracing: false,
+                },
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "1080p",
+                  name: "Quality mode",
+                  rayTracing: false,
+                },
+              ],
+            },
           },
         ],
       },
@@ -308,11 +364,25 @@ async function main() {
       performances: {
         create: [
           {
-            frameRate: "target 30FPS",
-            resolution: "Dynamic 720p-900p",
             hdr: false,
-            notes: "Performance varies in large areas",
+            threeDAudio: false,
             consoleId: nsw.id,
+            performanceModes: {
+              create: [
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "1080p",
+                  name: "Docked mode",
+                  rayTracing: false,
+                },
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "720p",
+                  name: "Handheld mode",
+                  rayTracing: false,
+                },
+              ],
+            },
           },
         ],
       },
@@ -352,18 +422,46 @@ async function main() {
       performances: {
         create: [
           {
-            frameRate: "target 60FPS",
-            resolution: "4K",
             hdr: true,
-            notes: "Performance mode available",
+            threeDAudio: true,
             consoleId: xboxSeriesX.id,
+            performanceModes: {
+              create: [
+                {
+                  frameRate: "target 60FPS",
+                  resolution: "4K",
+                  name: "Performance mode",
+                  rayTracing: true,
+                },
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "4K",
+                  name: "Quality mode",
+                  rayTracing: false,
+                },
+              ],
+            },
           },
           {
-            frameRate: "target 60FPS",
-            resolution: "1080p",
             hdr: false,
-            notes: "Performance mode available",
+            threeDAudio: false,
             consoleId: xboxSeriesS.id,
+            performanceModes: {
+              create: [
+                {
+                  frameRate: "target 60FPS",
+                  resolution: "1080p",
+                  name: "Performance mode",
+                  rayTracing: false,
+                },
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "1080p",
+                  name: "Quality mode",
+                  rayTracing: false,
+                },
+              ],
+            },
           },
         ],
       },
@@ -406,41 +504,89 @@ async function main() {
       performances: {
         create: [
           {
-            frameRate: "target 60FPS",
-            resolution: "4K",
+            threeDAudio: false,
             hdr: true,
-            notes: "Performance mode available",
+
             consoleId: xboxSeriesX.id,
+            performanceModes: {
+              create: [
+                {
+                  frameRate: "target 60FPS",
+                  resolution: "4K",
+                  name: "Performance mode",
+                  rayTracing: false,
+                },
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "4K",
+                  name: "Quality mode",
+                  rayTracing: false,
+                },
+              ],
+            },
           },
           {
-            frameRate: "target 60FPS",
-            resolution: "1080p",
+            threeDAudio: false,
             hdr: false,
-            notes: "Performance mode available",
             consoleId: xboxSeriesS.id,
+            performanceModes: {
+              create: [
+                {
+                  frameRate: "target 60FPS",
+                  resolution: "1080p",
+                  name: "Performance mode",
+                  rayTracing: false,
+                },
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "1080p",
+                  name: "Quality mode",
+                  rayTracing: false,
+                },
+              ],
+            },
           },
           {
-            frameRate: "target 60FPS",
-            resolution: "4K",
             hdr: true,
-            notes: "Performance mode available",
+            threeDAudio: false,
             consoleId: ps5.id,
+            performanceModes: {
+              create: [
+                {
+                  frameRate: "target 60FPS",
+                  resolution: "4K",
+                  name: "Performance mode",
+                  rayTracing: false,
+                },
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "4K",
+                  name: "Quality mode",
+                  rayTracing: false,
+                },
+              ],
+            },
           },
           {
-            frameRate: "target 60FPS",
-            resolution: "1080p",
-            docked: true,
+            threeDAudio: false,
             hdr: false,
-
             consoleId: nsw.id,
-          },
-          {
-            frameRate: "target 60FPS",
-            resolution: "720p",
-            docked: false,
-            hdr: false,
-
-            consoleId: nsw.id,
+            performanceModes: {
+              create: [
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "1080p",
+                  name: "Handheld mode",
+                  rayTracing: false,
+                },
+                {
+                  frameRate: "target 30FPS",
+                  resolution: "720p",
+                  name: "Handheld mode",
+                  rayTracing: false,
+                },
+              ],
+            },
           },
         ],
       },

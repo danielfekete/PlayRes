@@ -106,21 +106,34 @@ model GamePlatform {
 
 // One performance can have one console and one console can have many performances one-to-many relationship
 // One performance can have one game and one game can have many performances one-to-many relationship
+// One performance can have many performance modes and one performance mode can have one performance one-to-many relationship
 model Performance {
-  id         String   @id @default(cuid())
-  frameRate  String
-  resolution String
-  updated    DateTime  @default(now())
-  hdr        Boolean?  @default(false)
-  rayTracing Boolean?  @default(false)
-  docked     Boolean?  @default(false)
-  notes      String? // Optional field for additional notes
-  gameId     String
-  game       Game     @relation(fields: [gameId], references: [id])
+  id             String             @id @default(cuid())
+  hdr            Boolean
+  threeDAudio    Boolean
+  updated    DateTime  @default(now()) 
+
+  performanceModes PerformanceMode[]
+  gameId         String
+  game           Game               @relation(fields: [gameId], references: [id])
   consoleId String
   console   Console @relation(fields: [consoleId], references: [id])
+ 
 
-  @@map("performances")
+  @@unique([gameId, consoleId])
+}
+
+// One performance mode can have one performance and one performance can have many performance modes one-to-many relationship
+model PerformanceMode {
+  id             String             @id @default(cuid())
+  name           String
+  resolution     String
+  frameRate      String   
+  upscalingMethod String? // Optional field for upscaling method(eg. FSR 2, FSR 3,checkerboard)             
+  rayTracing     Boolean
+
+  performanceId  String
+  performance    Performance        @relation(fields: [performanceId], references: [id])
 }
 
 // One release date can have multiple games and one game can have many release dates one-to-many relationship

@@ -1,6 +1,6 @@
 import { Platform } from "@prisma/client";
 import React from "react";
-import { GameCard } from "../games/game-card";
+import GameCard from "../games/game-card";
 
 interface ShowCaseProps {
   title: string;
@@ -9,14 +9,15 @@ interface ShowCaseProps {
     coverImage: string;
     name: string;
     platforms: Platform[];
+    performanceTags: string[];
   }[];
 }
 
-export default async function Showcase({ title, games }: ShowCaseProps) {
+export default function Showcase({ title, games }: ShowCaseProps) {
   return (
     <div>
       <h2 className="text-3xl font-bold">{title}</h2>
-      <div className="grid grid-cols-3  gap-y-6 py-4">
+      <div className="grid grid-cols-3 gap-6 py-4">
         {games.map((game) => (
           <GameCard
             key={game.id}
@@ -24,6 +25,7 @@ export default async function Showcase({ title, games }: ShowCaseProps) {
             img={game.coverImage}
             name={game.name}
             platforms={game.platforms}
+            tags={game.performanceTags}
           />
         ))}
       </div>

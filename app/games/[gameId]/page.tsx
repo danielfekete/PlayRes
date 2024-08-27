@@ -108,39 +108,76 @@ export default async function Game({
           {data.performances.map(
             ({
               console: { name },
-              frameRate,
-              resolution,
+
               hdr,
-              notes,
-              rayTracing,
+              threeDAudio,
+              updated,
+              performanceModes,
               id,
             }) => {
               return (
-                <div key={id}>
+                <div
+                  key={id}
+                  className="border border-gray-300 p-4 rounded-lg shadow-md"
+                >
                   <div className="text-base font-medium">{name}</div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-                    <div>
-                      <div className="text-base font-medium">Frame rate</div>
-                      <div className="text-sm text-muted-foreground">
-                        {frameRate}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-base font-medium">Resolution</div>
-                      <div className="text-sm text-muted-foreground">
-                        {resolution}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-base font-medium">Notes</div>
-                      <div className="text-sm text-muted-foreground">
-                        {notes}
-                      </div>
-                    </div>
+                    {performanceModes.map(
+                      ({
+                        id,
+                        frameRate,
+                        resolution,
+                        rayTracing,
+                        upscalingMethod,
+                        name,
+                      }) => (
+                        <div key={id} className="px-4">
+                          <div className="text-base font-medium py-2">
+                            {name}
+                          </div>
+                          <div className="space-y-4">
+                            <div>
+                              <div className="text-base font-medium">
+                                Frame rate
+                              </div>
+                              <div className="text-sm text-muted-foreground">
+                                {frameRate}
+                              </div>
+                            </div>
+                            <div>
+                              <div className="text-base font-medium">
+                                Resolution
+                              </div>
+                              <div className="text-sm text-muted-foreground">
+                                {resolution}
+                              </div>
+                            </div>
+                            {upscalingMethod ? (
+                              <div>
+                                <div className="text-base font-medium">
+                                  Upscaling method
+                                </div>
+                                <div className="text-sm text-muted-foreground">
+                                  {upscalingMethod}
+                                </div>
+                              </div>
+                            ) : null}
+                            <div>
+                              <div className="text-base font-medium">
+                                RayTracing
+                              </div>
+                              <div className="text-sm text-muted-foreground">
+                                {rayTracing ? "Supported" : "Not Supported"}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    )}
                   </div>
-                  <div>
+                  <div className="space-x-2 pt-4">
                     {hdr ? <Badge>HDR</Badge> : null}
-                    {rayTracing ? <Badge>Ray Tracing</Badge> : null}
+                    {threeDAudio ? <Badge>3D audio</Badge> : null}
                   </div>
                 </div>
               );

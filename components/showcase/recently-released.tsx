@@ -1,9 +1,8 @@
 import React from "react";
 import Showcase from "./showcase";
-import { mapGames } from "@/lib/functions";
 import { getRecentlyReleased } from "@/data/showcase";
 
 export default async function RecentlyReleased() {
-  const recentlyReleased = ((await getRecentlyReleased()) || []).map(mapGames);
+  const recentlyReleased = (await getRecentlyReleased()) || [];
   return <Showcase games={recentlyReleased} title="Recently released" />;
 }

@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { mapGames } from "@/lib/functions";
 
 export const getRecentlyReleased = async () => {
   try {
@@ -17,11 +18,16 @@ export const getRecentlyReleased = async () => {
             platform: true,
           },
         },
+        performances: {
+          include: {
+            performanceModes: true,
+          },
+        },
       },
       take: 6,
     });
 
-    return recentlyReleased;
+    return recentlyReleased.map(mapGames);
   } catch (e) {
     console.error(e);
   }
@@ -57,6 +63,11 @@ export const getSystemSellers = async () => {
             platform: true,
           },
         },
+        performances: {
+          include: {
+            performanceModes: true,
+          },
+        },
       },
       take,
     });
@@ -84,6 +95,11 @@ export const getSystemSellers = async () => {
         platforms: {
           include: {
             platform: true,
+          },
+        },
+        performances: {
+          include: {
+            performanceModes: true,
           },
         },
       },
@@ -115,11 +131,20 @@ export const getSystemSellers = async () => {
             platform: true,
           },
         },
+        performances: {
+          include: {
+            performanceModes: true,
+          },
+        },
       },
       take,
     });
 
-    return [...bestSellingPS, ...bestSellingXbox, ...bestSellingNintendo];
+    return [
+      ...bestSellingPS.map(mapGames),
+      ...bestSellingXbox.map(mapGames),
+      ...bestSellingNintendo.map(mapGames),
+    ];
   } catch (e) {
     console.error(e);
   }
@@ -138,12 +163,15 @@ export const getRecentlyUpdated = async () => {
           orderBy: {
             updated: "desc",
           },
+          include: {
+            performanceModes: true,
+          },
         },
       },
       take: 6,
     });
 
-    return recentlyUpdated;
+    return recentlyUpdated.map(mapGames);
   } catch (e) {
     console.error(e);
   }

@@ -11,7 +11,7 @@ export function Navbar() {
   return (
     <div className="fixed top-0 left-0 z-50 w-full bg-white dark:bg-gray-800">
       <div className="flex items-center justify-between px-4 py-2">
-        <Link href="#" className="flex items-center gap-2" prefetch={false}>
+        <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <MountainIcon className="h-6 w-6" />
           <span className="text-lg font-semibold">Acme Inc</span>
         </Link>
@@ -32,7 +32,7 @@ export function Navbar() {
             Games
           </Link>
           <Link
-            href="#"
+            href="/about"
             className="text-lg font-medium hover:underline underline-offset-4"
             prefetch={false}
           >
@@ -64,7 +64,7 @@ export function Navbar() {
                 Games
               </Link>
               <Link
-                href="#"
+                href="/about"
                 className="text-lg font-medium hover:underline underline-offset-4"
                 prefetch={false}
               >

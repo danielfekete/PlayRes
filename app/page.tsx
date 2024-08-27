@@ -2,17 +2,20 @@ import RecentlyReleased from "@/components/showcase/recently-released";
 import RecentlyUpdated from "@/components/showcase/recently-updated";
 import SystemSellers from "@/components/showcase/system-sellers";
 import { ShowcaseSkeleton } from "@/components/skeletons";
+import { Welcome } from "@/components/welcome";
 import { Suspense } from "react";
 
 export default async function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      {/* TODO: Live search bar */}
-      {/* <div className="w-full">
+    <div className="w-full">
+      <Welcome />
+
+      <div className="space-y-12 container py-4">
+        {/* TODO: Live search bar */}
+        {/* <div className="w-full">
         <form></form>
       </div> */}
-      {/* Showcases */}
-      <div className="space-y-12 w-full">
+        {/* Showcases */}
         {/* Recently released */}
         <Suspense fallback={<ShowcaseSkeleton />}>
           <RecentlyReleased />
@@ -26,6 +29,6 @@ export default async function Home() {
           <SystemSellers />
         </Suspense>
       </div>
-    </main>
+    </div>
   );
 }

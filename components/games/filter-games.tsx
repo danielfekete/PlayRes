@@ -6,6 +6,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { MultiSelect } from "../multi-select";
+import { Input } from "../ui/input";
+import SearchGames from "./search-games";
 
 interface FilterGamesProps {
   platforms: Platform[];
@@ -24,6 +26,8 @@ export default function FilterGames({
   const pathname = usePathname();
   // Handle search params
   const searchParams = useSearchParams();
+
+  const [search, setSearch] = useState(searchParams.get("name") || "");
 
   const [selectedGenres, setSelectedGenres] = useState(
     searchParams.getAll("genres") || []
@@ -98,9 +102,13 @@ export default function FilterGames({
   };
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full p-4 space-y-4 mt-20">
+      {/* Game name */}
+      <div>
+        <SearchGames />
+      </div>
       {/* Platforms */}
-      <div className="py-2">
+      <div>
         <h2 className="text-lg font-semibold">Platforms</h2>
         <div className="flex w-full gap-3 py-2 justify-center">
           {platforms.map(({ logo, id, name }) => (
@@ -128,7 +136,7 @@ export default function FilterGames({
       </div>
 
       {/* Genres */}
-      <div className="py-2">
+      <div>
         <h2 className="text-lg font-semibold">Genre(s)</h2>
         <MultiSelect
           options={genres.map((genre) => ({
@@ -144,7 +152,7 @@ export default function FilterGames({
         />
       </div>
       {/* Publishers */}
-      <div className="py-2">
+      <div>
         <h2 className="text-lg font-semibold">Publisher(s)</h2>
         <MultiSelect
           options={publishers.map((genre) => ({
@@ -160,7 +168,7 @@ export default function FilterGames({
         />
       </div>
       {/* Developers */}
-      <div className="py-2">
+      <div>
         <h2 className="text-lg font-semibold">Developer(s)</h2>
         <MultiSelect
           options={developers.map((genre) => ({

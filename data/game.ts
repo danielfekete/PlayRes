@@ -16,6 +16,7 @@ export const getGame = async (id: string) => {
         performances: {
           include: {
             console: true,
+            performanceModes: true,
           },
         },
         releaseDates: true,

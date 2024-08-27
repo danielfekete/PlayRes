@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { mapGames } from "@/lib/functions";
 
 export const getGames = async ({
   name,
@@ -20,6 +21,11 @@ export const getGames = async ({
         platforms: {
           include: {
             platform: true,
+          },
+        },
+        performances: {
+          include: {
+            performanceModes: true,
           },
         },
       },
@@ -58,7 +64,7 @@ export const getGames = async ({
         name: "asc",
       },
     });
-    return games;
+    return games.map(mapGames);
   } catch (err) {
     console.log(err);
   }
