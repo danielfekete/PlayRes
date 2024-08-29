@@ -27,6 +27,7 @@ model Game {
   releaseDates      ReleaseDate[] // One-to-many relationship with release date
   developerId      String
   publisherId      String
+  updateGameInformation UpdateGameInformation[] // One-to-many relationship with UpdateGameInformation
 
 
   @@unique([name, developerId, publisherId])
@@ -146,6 +147,24 @@ model ReleaseDate {
 
   @@unique([date, region, gameId])
   @@map("release_dates")
+}
+
+// One game can have many update game information and one update game information can have one game one-to-many relationship
+model UpdateGameInformation{
+  id String @id @default(cuid())
+  information String 
+  gameId String
+  game Game @relation(fields: [gameId], references: [id])
+
+  @@map("update_game_informations")
+}
+
+model AddYourGame{
+  id String @id @default(cuid())
+  name String
+  information String? 
+
+  @@map("add_your_games")
 }
 
 

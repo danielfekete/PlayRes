@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { MultiSelect } from "../multi-select";
 import { Input } from "../ui/input";
 import SearchGames from "./search-games";
+import { CircleX } from "lucide-react";
 
 interface FilterGamesProps {
   platforms: Platform[];
@@ -184,7 +185,10 @@ export default function FilterGames({
         />
       </div>
       <div>
-        <Button onClick={handleResetFilters}>Reset filters</Button>
+        <Button onClick={handleResetFilters} className="space-x-2">
+          <CircleX />
+          <span>Reset filters</span>
+        </Button>
       </div>
     </div>
   );

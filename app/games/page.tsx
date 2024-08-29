@@ -1,3 +1,4 @@
+import AddYourGame from "@/components/games/add-your-game";
 import FilterGamesWrapper from "@/components/games/filter-games-wrapper";
 import GamesList from "@/components/games/games-list";
 import { FilterGamesSkeleton, GamesListSkeleton } from "@/components/skeletons";
@@ -22,6 +23,7 @@ export default async function Games({
             <Suspense fallback={<FilterGamesSkeleton />}>
               <FilterGamesWrapper />
             </Suspense>
+            <AddYourGame />
           </div>
           <div className="col-span-3 space-y-4">
             {/* <GamesPagination totalPages={totalPages} /> */}
