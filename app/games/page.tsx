@@ -1,7 +1,5 @@
 import FilterGamesWrapper from "@/components/games/filter-games-wrapper";
 import GamesList from "@/components/games/games-list";
-import GamesPagination from "@/components/games/games-pagination";
-import SearchGames from "@/components/games/search-games";
 import { FilterGamesSkeleton, GamesListSkeleton } from "@/components/skeletons";
 import { Suspense } from "react";
 

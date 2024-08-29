@@ -9,12 +9,7 @@ export default async function Home() {
   return (
     <div className="w-full">
       <Welcome />
-
       <div className="space-y-12 container py-4">
-        {/* TODO: Live search bar */}
-        {/* <div className="w-full">
-        <form></form>
-      </div> */}
         {/* Showcases */}
         {/* Recently released */}
         <Suspense fallback={<ShowcaseSkeleton />}>
