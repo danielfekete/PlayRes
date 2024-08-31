@@ -2,48 +2,72 @@
   "name": "play-res",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "cross-env NODE_OPTIONS=\"${NODE_OPTIONS} --no-deprecation\" next dev",
+    "devturbo": "pnpm dev --turbo",
+    "devsafe": "rm -rf .next && pnpm dev",
+    "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
+    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
+    "ci": "payload migrate && pnpm build",
+    "payload": "payload",
+    "generate:types": "payload generate:types",
+    "generate:schema": "payload-graphql generate:schema",
+    "standalone-script": "payload run ./src/scripts/standalone-script.ts",
+    "generate:importmap": "payload generate:importmap"
   },
-  "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  "engines": {
+    "node": "^18.20.2 || >=20.9.0"
   },
   "dependencies": {
-    "@hookform/resolvers": "^3.9.0",
-    "@prisma/client": "^5.18.0",
-    "@radix-ui/react-checkbox": "^1.1.1",
-    "@radix-ui/react-dialog": "^1.1.1",
-    "@radix-ui/react-dropdown-menu": "^2.1.1",
-    "@radix-ui/react-label": "^2.1.0",
-    "@radix-ui/react-popover": "^1.1.1",
-    "@radix-ui/react-separator": "^1.1.0",
-    "@radix-ui/react-slot": "^1.1.0",
+    "@payloadcms/db-postgres": "3.0.0-beta.90",
+    "@payloadcms/next": "3.0.0-beta.90",
+    "@payloadcms/richtext-lexical": "3.0.0-beta.90",
+    "@payloadcms/richtext-slate": "3.0.0-beta.90",
+    "@payloadcms/storage-vercel-blob": "^3.0.0-beta.90",
+    "@payloadcms/ui": "3.0.0-beta.90",
+    "@vercel/blob": "^0.23.4",
+    "babel-plugin-react-compiler": "0.0.0-experimental-48eb8f4-20240822",
     "class-variance-authority": "^0.7.0",
+    "cli-progress": "^3.12.0",
     "clsx": "^2.1.1",
-    "cmdk": "1.0.0",
+    "cross-env": "^7.0.3",
     "date-fns": "^3.6.0",
-    "lucide-react": "^0.429.0",
-    "next": "14.2.6",
-    "react": "^18.3.1",
-    "react-dom": "^18",
-    "react-hook-form": "^7.53.0",
+    "graphql": "^16.8.2",
+    "lucide-react": "^0.436.0",
+    "next": "15.0.0-canary.104",
+    "payload": "3.0.0-beta.90",
+    "react": "19.0.0-rc-06d0b89e-20240801",
+    "react-dom": "19.0.0-rc-06d0b89e-20240801",
+    "sharp": "0.32.6",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "use-debounce": "^10.0.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.6",
-    "postcss": "^8",
-    "prisma": "^5.18.0",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "@payloadcms/graphql": "3.0.0-beta.90",
+    "@types/cli-progress": "^3.11.6",
+    "@types/node": "^20.14.9",
+    "@types/oboe": "^2.1.4",
+    "@types/react": "npm:types-react@19.0.0-rc.0",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0",
+    "@types/stream-json": "^1.7.7",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "15.0.0-canary.104",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.10",
+    "typescript": "5.5.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "npm:types-react@19.0.0-rc.0",
+      "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0"
+    }
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@19.0.0-rc.0",
+    "@types/react-dom": "npm:types-react-dom@19.0.0-rc.0"
   }
 }
