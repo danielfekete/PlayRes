@@ -32,7 +32,7 @@ export default function SearchGames(props: React.ComponentProps<"div">) {
     <div {...props}>
       <Input
         type="text"
-        placeholder="Search for games"
+        placeholder="eg. God of War Ragnarök"
         className="w-full p-4"
         onChange={onChange}
         defaultValue={searchParams.get("name")?.toString()}

@@ -54,7 +54,9 @@ export function Combobox({
               {selected.length
                 ? items
                     .filter(({ value }) => selected.includes(value))
-                    .map(({ label }) => <Badge>{label}</Badge>)
+                    .map(({ label, value }) => (
+                      <Badge key={value}>{label}</Badge>
+                    ))
                 : emptyText}
             </div>
           </div>

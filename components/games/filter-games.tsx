@@ -28,8 +28,6 @@ export default function FilterGames({
   // Handle search params
   const searchParams = useSearchParams();
 
-  const [search, setSearch] = useState(searchParams.get("name") || "");
-
   const [selectedGenres, setSelectedGenres] = useState(
     searchParams.getAll("genres") || []
   );
@@ -106,6 +104,7 @@ export default function FilterGames({
     <div className="w-full p-4 space-y-4 mt-20">
       {/* Game name */}
       <div>
+        <h2 className="text-lg font-semibold">Title</h2>
         <SearchGames />
       </div>
       {/* Platforms */}
