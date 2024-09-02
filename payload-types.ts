@@ -71,7 +71,7 @@ export interface Game {
   id: number;
   igdbId?: number | null;
   name: string;
-  coverImage?: (number | null) | Media;
+  coverImage: number | Media;
   rating?: number | null;
   hype?: number | null;
   summary?: string | null;

@@ -23,7 +23,7 @@ export const GamesCollection: CollectionConfig = {
       name: 'coverImage',
       type: 'relationship',
       relationTo: 'media',
-      required: false,
+      required: true,
     },
     {
       name: 'rating',

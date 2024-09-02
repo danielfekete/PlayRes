@@ -1,4 +1,4 @@
-import { Game, Performance, Platform } from 'payload-types'
+import { Game, Media, Performance, Platform } from 'payload-types'
 
 export const FSR = 'FSR'
 export const RAY_TRACING = 'Ray Tracing'
@@ -26,7 +26,7 @@ export const listGamesMap = (game: Game) => {
   return {
     id: game.id,
     name: game.name,
-    coverImage: game.coverImage,
+    coverImage: game.coverImage as Media,
     platforms: game.platforms as Platform[],
     performanceTags: getPerformanceTags(performances),
   }

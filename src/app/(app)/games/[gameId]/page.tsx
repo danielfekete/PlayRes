@@ -20,10 +20,10 @@ export default async function Game({ params: { gameId } }: { params: { gameId: s
       <div className="grid gap-8 md:grid-cols-3 items-start">
         <div className="space-y-4">
           <Image
-            src={data.cover.url}
-            alt={data.cover.text}
-            width={data.cover.width}
-            height={data.cover.height}
+            src={data.cover.url || ''}
+            alt={data.cover.text || ''}
+            width={data.cover.width || 264}
+            height={data.cover.height || 352}
             className="rounded-lg object-cover max-h-[400px] "
           />
         </div>
@@ -54,11 +54,11 @@ export default async function Game({ params: { gameId } }: { params: { gameId: s
             <div>
               <div className="text-sm font-medium text-muted-foreground">Platforms</div>
               <div className="text-base font-medium space-x-2">
-                {data.platforms.map(({ id, logo, name }) => (
+                {data.platforms.map(({ id, logo }) => (
                   <Image
                     key={id}
-                    src={logo}
-                    alt={name}
+                    src={logo.url}
+                    alt={logo.text}
                     width={20}
                     height={20}
                     className="inline-block"

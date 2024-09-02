@@ -1,16 +1,16 @@
-import { Platform } from "@prisma/client";
-import React from "react";
-import GameCard from "../games/game-card";
+import React from 'react'
+import GameCard from '../games/game-card'
+import { Media, Platform } from 'payload-types'
 
 interface ShowCaseProps {
-  title: string;
+  title: string
   games: {
-    id: string;
-    coverImage: string;
-    name: string;
-    platforms: Platform[];
-    performanceTags: string[];
-  }[];
+    id: number
+    name: string
+    coverImage: Media
+    platforms: Platform[]
+    performanceTags: string[]
+  }[]
 }
 
 export default function Showcase({ title, games }: ShowCaseProps) {
@@ -30,5 +30,5 @@ export default function Showcase({ title, games }: ShowCaseProps) {
         ))}
       </div>
     </div>
-  );
+  )
 }
