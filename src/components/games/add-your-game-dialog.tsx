@@ -1,6 +1,6 @@
-"use client";
-import React, { useEffect } from "react";
-import { Button } from "../ui/button";
+'use client'
+import React, { useEffect } from 'react'
+import { Button } from '../ui/button'
 import {
   Dialog,
   DialogContent,
@@ -8,51 +8,51 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { CirclePlus } from "lucide-react";
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import { Textarea } from "../ui/textarea";
-import { Input } from "../ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useFormState } from "react-dom";
-import { addYourGameSchema } from "@/schemas/addYourGame";
-import { addYourGame } from "@/lib/actions/addYourGame";
-import FormStateProvider from "../form/form-state-provider";
+} from '../ui/dialog'
+import { CirclePlus } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+// import {
+//   Form,
+//   FormControl,
+//   FormDescription,
+//   FormField,
+//   FormItem,
+//   FormLabel,
+//   FormMessage,
+// } from "../ui/form";
+import { Textarea } from '../ui/textarea'
+import { Input } from '../ui/input'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useFormState } from 'react-dom'
+import { addYourGameSchema } from '@/schemas/addYourGame'
+import { addYourGame } from '@/lib/actions/addYourGame'
+import FormStateProvider from '../form/form-state-provider'
 
 export default function AddYourGameDialog() {
   const [state, dispatch] = useFormState(addYourGame, {
-    error: "",
-    success: "",
-  });
+    error: '',
+    success: '',
+  })
 
-  const formRef = React.useRef<HTMLFormElement>(null);
+  const formRef = React.useRef<HTMLFormElement>(null)
 
   const methods = useForm({
     defaultValues: {
-      name: "",
-      performance: "",
+      name: '',
+      performance: '',
       ...(state?.fields ?? {}),
     },
-    mode: "onBlur",
+    mode: 'onBlur',
     resolver: zodResolver(addYourGameSchema),
-  });
-  const { control, handleSubmit, reset } = methods;
+  })
+  const { control, handleSubmit, reset } = methods
 
   useEffect(() => {
     if (state?.fields) {
-      reset(state.fields);
+      reset(state.fields)
     }
-    reset();
-  }, [state]);
+    reset()
+  }, [state])
 
   return (
     <Dialog>
@@ -73,11 +73,11 @@ export default function AddYourGameDialog() {
               className="space-y-4"
               noValidate
               onSubmit={(evt) => {
-                evt.preventDefault();
+                evt.preventDefault()
                 handleSubmit(() => {
-                  const formData = new FormData(formRef.current!);
-                  dispatch(formData);
-                })(evt);
+                  const formData = new FormData(formRef.current!)
+                  dispatch(formData)
+                })(evt)
               }}
             >
               {/* Game name */}
@@ -108,9 +108,8 @@ export default function AddYourGameDialog() {
                         <Textarea className="resize-none" {...field} />
                       </FormControl>
                       <FormDescription>
-                        Please write down any performance information about the
-                        game on any platform that the game released (e.g. FPS,
-                        resolution, modes etc.)
+                        Please write down any performance information about the game on any platform
+                        that the game released (e.g. FPS, resolution, modes etc.)
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -125,5 +124,5 @@ export default function AddYourGameDialog() {
         </Form>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

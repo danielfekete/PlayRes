@@ -1,19 +1,19 @@
-import React from "react";
-import GameCard from "./game-card";
-import { getGames } from "@/data/games";
-import { getArrayParamValue } from "@/lib/functions";
-import GamesPagination from "./games-pagination";
+import React from 'react'
+import GameCard from './game-card'
+import { getGames } from '@/data/games'
+import { getArrayParamValue } from '@/lib/functions'
+import GamesPagination from './games-pagination'
 
 export default async function GamesList({
   searchParams: { name, publishers, developers, genres, platforms },
 }: {
   searchParams: {
-    name?: string;
-    genres?: string | string[];
-    developers?: string | string[];
-    publishers?: string | string[];
-    platforms?: string | string[];
-  };
+    name?: string
+    genres?: string | string[]
+    developers?: string | string[]
+    publishers?: string | string[]
+    platforms?: string | string[]
+  }
 }) {
   const games =
     (await getGames({
@@ -22,9 +22,9 @@ export default async function GamesList({
       developers: getArrayParamValue(developers),
       genres: getArrayParamValue(genres),
       platforms: getArrayParamValue(platforms),
-    })) || [];
+    })) || []
 
-  const totalPages = Math.ceil(games.length / 18);
+  const totalPages = Math.ceil(games.length / 18)
 
   return (
     <div>
@@ -45,5 +45,5 @@ export default async function GamesList({
       {/* Bottom pagination */}
       <GamesPagination totalPages={totalPages} />
     </div>
-  );
+  )
 }

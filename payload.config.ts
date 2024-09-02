@@ -14,6 +14,9 @@ import { performancesCollection } from '@/collections/performance'
 import { platformsCollection } from '@/collections/platform'
 import { MediaCollection } from '@/collections/media'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { DevelopersCollection } from '@/collections/developer'
+import { PublishersCollection } from '@/collections/publisher'
+import { GenresCollection } from '@/collections/genre'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -29,6 +32,9 @@ export default buildConfig({
     performancesCollection,
     platformsCollection,
     MediaCollection,
+    DevelopersCollection,
+    PublishersCollection,
+    GenresCollection,
   ],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

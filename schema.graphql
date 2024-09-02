@@ -1,37 +1,51 @@
 type Query {
-  User(id: String!, draft: Boolean): User
-  Users(draft: Boolean, where: User_where, limit: Int, page: Int, sort: String): Users
-  countUsers(draft: Boolean, where: User_where): countUsers
-  docAccessUser(id: String!): usersDocAccess
-  meUser: usersMe
-  initializedUser: Boolean
-  Page(id: String!, draft: Boolean): Page
-  Pages(draft: Boolean, where: Page_where, limit: Int, page: Int, sort: String): Pages
-  countPages(draft: Boolean, where: Page_where): countPages
-  docAccessPage(id: String!): pagesDocAccess
-  Media(id: String!, draft: Boolean): Media
+  GameRequest(id: Int!, draft: Boolean): GameRequest
+  GameRequests(draft: Boolean, where: GameRequest_where, limit: Int, page: Int, sort: String): GameRequests
+  countGameRequests(draft: Boolean, where: GameRequest_where): countGameRequests
+  docAccessGameRequest(id: Int!): game_requestDocAccess
+  Game(id: Int!, draft: Boolean): Game
+  Games(draft: Boolean, where: Game_where, limit: Int, page: Int, sort: String): Games
+  countGames(draft: Boolean, where: Game_where): countGames
+  docAccessGame(id: Int!): gameDocAccess
+  Console(id: Int!, draft: Boolean): Console
+  Consoles(draft: Boolean, where: Console_where, limit: Int, page: Int, sort: String): Consoles
+  countConsoles(draft: Boolean, where: Console_where): countConsoles
+  docAccessConsole(id: Int!): consoleDocAccess
+  Information(id: Int!, draft: Boolean): Information
+  allInformation(draft: Boolean, where: Information_where, limit: Int, page: Int, sort: String): allInformation
+  countallInformation(draft: Boolean, where: Information_where): countallInformation
+  docAccessInformation(id: Int!): informationDocAccess
+  Performance(id: Int!, draft: Boolean): Performance
+  Performances(draft: Boolean, where: Performance_where, limit: Int, page: Int, sort: String): Performances
+  countPerformances(draft: Boolean, where: Performance_where): countPerformances
+  docAccessPerformance(id: Int!): performanceDocAccess
+  Platform(id: Int!, draft: Boolean): Platform
+  Platforms(draft: Boolean, where: Platform_where, limit: Int, page: Int, sort: String): Platforms
+  countPlatforms(draft: Boolean, where: Platform_where): countPlatforms
+  docAccessPlatform(id: Int!): platformDocAccess
+  Media(id: Int!, draft: Boolean): Media
   allMedia(draft: Boolean, where: Media_where, limit: Int, page: Int, sort: String): allMedia
   countallMedia(draft: Boolean, where: Media_where): countallMedia
-  docAccessMedia(id: String!): mediaDocAccess
-  PayloadPreference(id: String!, draft: Boolean): PayloadPreference
+  docAccessMedia(id: Int!): mediaDocAccess
+  User(id: Int!, draft: Boolean): User
+  Users(draft: Boolean, where: User_where, limit: Int, page: Int, sort: String): Users
+  countUsers(draft: Boolean, where: User_where): countUsers
+  docAccessUser(id: Int!): usersDocAccess
+  meUser: usersMe
+  initializedUser: Boolean
+  PayloadPreference(id: Int!, draft: Boolean): PayloadPreference
   PayloadPreferences(draft: Boolean, where: PayloadPreference_where, limit: Int, page: Int, sort: String): PayloadPreferences
   countPayloadPreferences(draft: Boolean, where: PayloadPreference_where): countPayloadPreferences
-  docAccessPayloadPreference(id: String!): payload_preferencesDocAccess
+  docAccessPayloadPreference(id: Int!): payload_preferencesDocAccess
   Access: Access
 }
 
-type User {
-  id: String
+type GameRequest {
+  id: Int
+  name: String!
+  performance: String
   updatedAt: DateTime
   createdAt: DateTime
-  email: EmailAddress!
-  resetPasswordToken: String
-  resetPasswordExpiration: DateTime
-  salt: String
-  hash: String
-  loginAttempts: Float
-  lockUntil: DateTime
-  password: String!
 }
 
 """
@@ -39,13 +53,8 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
-"""
-A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address.
-"""
-scalar EmailAddress @specifiedBy(url: "https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address")
-
-type Users {
-  docs: [User]
+type GameRequests {
+  docs: [GameRequest]
   hasNextPage: Boolean
   hasPrevPage: Boolean
   limit: Int
@@ -58,48 +67,17 @@ type Users {
   totalPages: Int
 }
 
-input User_where {
-  updatedAt: User_updatedAt_operator
-  createdAt: User_createdAt_operator
-  email: User_email_operator
-  id: User_id_operator
-  AND: [User_where_and]
-  OR: [User_where_or]
+input GameRequest_where {
+  name: GameRequest_name_operator
+  performance: GameRequest_performance_operator
+  updatedAt: GameRequest_updatedAt_operator
+  createdAt: GameRequest_createdAt_operator
+  id: GameRequest_id_operator
+  AND: [GameRequest_where_and]
+  OR: [GameRequest_where_or]
 }
 
-input User_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input User_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input User_email_operator {
-  equals: EmailAddress
-  not_equals: EmailAddress
-  like: EmailAddress
-  contains: EmailAddress
-  in: [EmailAddress]
-  not_in: [EmailAddress]
-  all: [EmailAddress]
-}
-
-input User_id_operator {
+input GameRequest_name_operator {
   equals: String
   not_equals: String
   like: String
@@ -107,140 +85,180 @@ input User_id_operator {
   in: [String]
   not_in: [String]
   all: [String]
+}
+
+input GameRequest_performance_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
   exists: Boolean
 }
 
-input User_where_and {
-  updatedAt: User_updatedAt_operator
-  createdAt: User_createdAt_operator
-  email: User_email_operator
-  id: User_id_operator
-  AND: [User_where_and]
-  OR: [User_where_or]
+input GameRequest_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
 }
 
-input User_where_or {
-  updatedAt: User_updatedAt_operator
-  createdAt: User_createdAt_operator
-  email: User_email_operator
-  id: User_id_operator
-  AND: [User_where_and]
-  OR: [User_where_or]
+input GameRequest_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
 }
 
-type countUsers {
+input GameRequest_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input GameRequest_where_and {
+  name: GameRequest_name_operator
+  performance: GameRequest_performance_operator
+  updatedAt: GameRequest_updatedAt_operator
+  createdAt: GameRequest_createdAt_operator
+  id: GameRequest_id_operator
+  AND: [GameRequest_where_and]
+  OR: [GameRequest_where_or]
+}
+
+input GameRequest_where_or {
+  name: GameRequest_name_operator
+  performance: GameRequest_performance_operator
+  updatedAt: GameRequest_updatedAt_operator
+  createdAt: GameRequest_createdAt_operator
+  id: GameRequest_id_operator
+  AND: [GameRequest_where_and]
+  OR: [GameRequest_where_or]
+}
+
+type countGameRequests {
   totalDocs: Int
 }
 
-type usersDocAccess {
-  fields: UsersDocAccessFields
-  create: UsersCreateDocAccess
-  read: UsersReadDocAccess
-  update: UsersUpdateDocAccess
-  delete: UsersDeleteDocAccess
-  unlock: UsersUnlockDocAccess
+type game_requestDocAccess {
+  fields: GameRequestDocAccessFields
+  create: GameRequestCreateDocAccess
+  read: GameRequestReadDocAccess
+  update: GameRequestUpdateDocAccess
+  delete: GameRequestDeleteDocAccess
 }
 
-type UsersDocAccessFields {
-  updatedAt: UsersDocAccessFields_updatedAt
-  createdAt: UsersDocAccessFields_createdAt
-  email: UsersDocAccessFields_email
-  password: UsersDocAccessFields_password
+type GameRequestDocAccessFields {
+  name: GameRequestDocAccessFields_name
+  performance: GameRequestDocAccessFields_performance
+  updatedAt: GameRequestDocAccessFields_updatedAt
+  createdAt: GameRequestDocAccessFields_createdAt
 }
 
-type UsersDocAccessFields_updatedAt {
-  create: UsersDocAccessFields_updatedAt_Create
-  read: UsersDocAccessFields_updatedAt_Read
-  update: UsersDocAccessFields_updatedAt_Update
-  delete: UsersDocAccessFields_updatedAt_Delete
+type GameRequestDocAccessFields_name {
+  create: GameRequestDocAccessFields_name_Create
+  read: GameRequestDocAccessFields_name_Read
+  update: GameRequestDocAccessFields_name_Update
+  delete: GameRequestDocAccessFields_name_Delete
 }
 
-type UsersDocAccessFields_updatedAt_Create {
+type GameRequestDocAccessFields_name_Create {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_updatedAt_Read {
+type GameRequestDocAccessFields_name_Read {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_updatedAt_Update {
+type GameRequestDocAccessFields_name_Update {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_updatedAt_Delete {
+type GameRequestDocAccessFields_name_Delete {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_createdAt {
-  create: UsersDocAccessFields_createdAt_Create
-  read: UsersDocAccessFields_createdAt_Read
-  update: UsersDocAccessFields_createdAt_Update
-  delete: UsersDocAccessFields_createdAt_Delete
+type GameRequestDocAccessFields_performance {
+  create: GameRequestDocAccessFields_performance_Create
+  read: GameRequestDocAccessFields_performance_Read
+  update: GameRequestDocAccessFields_performance_Update
+  delete: GameRequestDocAccessFields_performance_Delete
 }
 
-type UsersDocAccessFields_createdAt_Create {
+type GameRequestDocAccessFields_performance_Create {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_createdAt_Read {
+type GameRequestDocAccessFields_performance_Read {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_createdAt_Update {
+type GameRequestDocAccessFields_performance_Update {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_createdAt_Delete {
+type GameRequestDocAccessFields_performance_Delete {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_email {
-  create: UsersDocAccessFields_email_Create
-  read: UsersDocAccessFields_email_Read
-  update: UsersDocAccessFields_email_Update
-  delete: UsersDocAccessFields_email_Delete
+type GameRequestDocAccessFields_updatedAt {
+  create: GameRequestDocAccessFields_updatedAt_Create
+  read: GameRequestDocAccessFields_updatedAt_Read
+  update: GameRequestDocAccessFields_updatedAt_Update
+  delete: GameRequestDocAccessFields_updatedAt_Delete
 }
 
-type UsersDocAccessFields_email_Create {
+type GameRequestDocAccessFields_updatedAt_Create {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_email_Read {
+type GameRequestDocAccessFields_updatedAt_Read {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_email_Update {
+type GameRequestDocAccessFields_updatedAt_Update {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_email_Delete {
+type GameRequestDocAccessFields_updatedAt_Delete {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_password {
-  create: UsersDocAccessFields_password_Create
-  read: UsersDocAccessFields_password_Read
-  update: UsersDocAccessFields_password_Update
-  delete: UsersDocAccessFields_password_Delete
+type GameRequestDocAccessFields_createdAt {
+  create: GameRequestDocAccessFields_createdAt_Create
+  read: GameRequestDocAccessFields_createdAt_Read
+  update: GameRequestDocAccessFields_createdAt_Update
+  delete: GameRequestDocAccessFields_createdAt_Delete
 }
 
-type UsersDocAccessFields_password_Create {
+type GameRequestDocAccessFields_createdAt_Create {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_password_Read {
+type GameRequestDocAccessFields_createdAt_Read {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_password_Update {
+type GameRequestDocAccessFields_createdAt_Update {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_password_Delete {
+type GameRequestDocAccessFields_createdAt_Delete {
   permission: Boolean!
 }
 
-type UsersCreateDocAccess {
+type GameRequestCreateDocAccess {
   permission: Boolean!
   where: JSONObject
 }
@@ -250,275 +268,42 @@ The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](
 """
 scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
-type UsersReadDocAccess {
+type GameRequestReadDocAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type UsersUpdateDocAccess {
+type GameRequestUpdateDocAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type UsersDeleteDocAccess {
+type GameRequestDeleteDocAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type UsersUnlockDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type usersMe {
-  collection: String
-  exp: Int
-  token: String
-  user: User
-}
-
-type Page {
-  id: String
-  title: String
-  content(depth: Int): JSON
+type Game {
+  id: Int
+  igdbId: Float
+  name: String!
+  coverImage: Media
+  rating: Float
+  hype: Float
+  summary: String
+  similarGames: [Float]
+  developer: String!
+  publisher: String!
+  platforms: [Platform!]!
+  genres: [Game_Genres!]
+  performances: [Performance!]
+  releaseDates: [Game_ReleaseDates!]
   updatedAt: DateTime
   createdAt: DateTime
 }
 
-"""
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
-
-type Pages {
-  docs: [Page]
-  hasNextPage: Boolean
-  hasPrevPage: Boolean
-  limit: Int
-  nextPage: Int
-  offset: Int
-  page: Int
-  pagingCounter: Int
-  prevPage: Int
-  totalDocs: Int
-  totalPages: Int
-}
-
-input Page_where {
-  title: Page_title_operator
-  content: Page_content_operator
-  updatedAt: Page_updatedAt_operator
-  createdAt: Page_createdAt_operator
-  id: Page_id_operator
-  AND: [Page_where_and]
-  OR: [Page_where_or]
-}
-
-input Page_title_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Page_content_operator {
-  equals: JSON
-  not_equals: JSON
-  like: JSON
-  contains: JSON
-  exists: Boolean
-}
-
-input Page_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Page_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Page_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Page_where_and {
-  title: Page_title_operator
-  content: Page_content_operator
-  updatedAt: Page_updatedAt_operator
-  createdAt: Page_createdAt_operator
-  id: Page_id_operator
-  AND: [Page_where_and]
-  OR: [Page_where_or]
-}
-
-input Page_where_or {
-  title: Page_title_operator
-  content: Page_content_operator
-  updatedAt: Page_updatedAt_operator
-  createdAt: Page_createdAt_operator
-  id: Page_id_operator
-  AND: [Page_where_and]
-  OR: [Page_where_or]
-}
-
-type countPages {
-  totalDocs: Int
-}
-
-type pagesDocAccess {
-  fields: PagesDocAccessFields
-  create: PagesCreateDocAccess
-  read: PagesReadDocAccess
-  update: PagesUpdateDocAccess
-  delete: PagesDeleteDocAccess
-}
-
-type PagesDocAccessFields {
-  title: PagesDocAccessFields_title
-  content: PagesDocAccessFields_content
-  updatedAt: PagesDocAccessFields_updatedAt
-  createdAt: PagesDocAccessFields_createdAt
-}
-
-type PagesDocAccessFields_title {
-  create: PagesDocAccessFields_title_Create
-  read: PagesDocAccessFields_title_Read
-  update: PagesDocAccessFields_title_Update
-  delete: PagesDocAccessFields_title_Delete
-}
-
-type PagesDocAccessFields_title_Create {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_title_Read {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_title_Update {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_title_Delete {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_content {
-  create: PagesDocAccessFields_content_Create
-  read: PagesDocAccessFields_content_Read
-  update: PagesDocAccessFields_content_Update
-  delete: PagesDocAccessFields_content_Delete
-}
-
-type PagesDocAccessFields_content_Create {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_content_Read {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_content_Update {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_content_Delete {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_updatedAt {
-  create: PagesDocAccessFields_updatedAt_Create
-  read: PagesDocAccessFields_updatedAt_Read
-  update: PagesDocAccessFields_updatedAt_Update
-  delete: PagesDocAccessFields_updatedAt_Delete
-}
-
-type PagesDocAccessFields_updatedAt_Create {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_updatedAt_Read {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_updatedAt_Update {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_updatedAt_Delete {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_createdAt {
-  create: PagesDocAccessFields_createdAt_Create
-  read: PagesDocAccessFields_createdAt_Read
-  update: PagesDocAccessFields_createdAt_Update
-  delete: PagesDocAccessFields_createdAt_Delete
-}
-
-type PagesDocAccessFields_createdAt_Create {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_createdAt_Read {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_createdAt_Update {
-  permission: Boolean!
-}
-
-type PagesDocAccessFields_createdAt_Delete {
-  permission: Boolean!
-}
-
-type PagesCreateDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type PagesReadDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type PagesUpdateDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type PagesDeleteDocAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
 type Media {
-  id: String
+  id: Int
   text: String
   updatedAt: DateTime
   createdAt: DateTime
@@ -531,6 +316,2223 @@ type Media {
   height: Float
   focalX: Float
   focalY: Float
+}
+
+type Platform {
+  id: Int
+  igdbId: Float
+  name: String!
+  logo: Media!
+  consoles: [Console!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Console {
+  id: Int
+  name: String!
+  platformId: Platform!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Game_Genres {
+  name: String
+  id: String
+}
+
+type Performance {
+  id: Int
+  hdr: Boolean
+  threeDAudio: Boolean
+  updated: DateTime
+  console: Console!
+  gameId: Game!
+  performanceModes: [Performance_PerformanceModes!]
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type Performance_PerformanceModes {
+  name: String
+  frameRate: String
+  resolution: String
+  rayTracing: Boolean
+  upscalingMethod: String
+  id: String
+}
+
+type Game_ReleaseDates {
+  date: DateTime
+  region: String
+  platform: Platform
+  id: String
+}
+
+type Games {
+  docs: [Game]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Game_where {
+  igdbId: Game_igdbId_operator
+  name: Game_name_operator
+  coverImage: Game_coverImage_operator
+  rating: Game_rating_operator
+  hype: Game_hype_operator
+  summary: Game_summary_operator
+  similarGames: Game_similarGames_operator
+  developer: Game_developer_operator
+  publisher: Game_publisher_operator
+  platforms: Game_platforms_operator
+  genres__name: Game_genres__name_operator
+  genres__id: Game_genres__id_operator
+  performances: Game_performances_operator
+  releaseDates__date: Game_releaseDates__date_operator
+  releaseDates__region: Game_releaseDates__region_operator
+  releaseDates__platform: Game_releaseDates__platform_operator
+  releaseDates__id: Game_releaseDates__id_operator
+  updatedAt: Game_updatedAt_operator
+  createdAt: Game_createdAt_operator
+  id: Game_id_operator
+  AND: [Game_where_and]
+  OR: [Game_where_or]
+}
+
+input Game_igdbId_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Game_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Game_coverImage_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+input Game_rating_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Game_hype_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Game_summary_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  exists: Boolean
+}
+
+input Game_similarGames_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Game_developer_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Game_publisher_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Game_platforms_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input Game_genres__name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Game_genres__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Game_performances_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Game_releaseDates__date_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Game_releaseDates__region_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Game_releaseDates__platform_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input Game_releaseDates__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Game_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Game_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Game_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Game_where_and {
+  igdbId: Game_igdbId_operator
+  name: Game_name_operator
+  coverImage: Game_coverImage_operator
+  rating: Game_rating_operator
+  hype: Game_hype_operator
+  summary: Game_summary_operator
+  similarGames: Game_similarGames_operator
+  developer: Game_developer_operator
+  publisher: Game_publisher_operator
+  platforms: Game_platforms_operator
+  genres__name: Game_genres__name_operator
+  genres__id: Game_genres__id_operator
+  performances: Game_performances_operator
+  releaseDates__date: Game_releaseDates__date_operator
+  releaseDates__region: Game_releaseDates__region_operator
+  releaseDates__platform: Game_releaseDates__platform_operator
+  releaseDates__id: Game_releaseDates__id_operator
+  updatedAt: Game_updatedAt_operator
+  createdAt: Game_createdAt_operator
+  id: Game_id_operator
+  AND: [Game_where_and]
+  OR: [Game_where_or]
+}
+
+input Game_where_or {
+  igdbId: Game_igdbId_operator
+  name: Game_name_operator
+  coverImage: Game_coverImage_operator
+  rating: Game_rating_operator
+  hype: Game_hype_operator
+  summary: Game_summary_operator
+  similarGames: Game_similarGames_operator
+  developer: Game_developer_operator
+  publisher: Game_publisher_operator
+  platforms: Game_platforms_operator
+  genres__name: Game_genres__name_operator
+  genres__id: Game_genres__id_operator
+  performances: Game_performances_operator
+  releaseDates__date: Game_releaseDates__date_operator
+  releaseDates__region: Game_releaseDates__region_operator
+  releaseDates__platform: Game_releaseDates__platform_operator
+  releaseDates__id: Game_releaseDates__id_operator
+  updatedAt: Game_updatedAt_operator
+  createdAt: Game_createdAt_operator
+  id: Game_id_operator
+  AND: [Game_where_and]
+  OR: [Game_where_or]
+}
+
+type countGames {
+  totalDocs: Int
+}
+
+type gameDocAccess {
+  fields: GameDocAccessFields
+  create: GameCreateDocAccess
+  read: GameReadDocAccess
+  update: GameUpdateDocAccess
+  delete: GameDeleteDocAccess
+}
+
+type GameDocAccessFields {
+  igdbId: GameDocAccessFields_igdbId
+  name: GameDocAccessFields_name
+  coverImage: GameDocAccessFields_coverImage
+  rating: GameDocAccessFields_rating
+  hype: GameDocAccessFields_hype
+  summary: GameDocAccessFields_summary
+  similarGames: GameDocAccessFields_similarGames
+  developer: GameDocAccessFields_developer
+  publisher: GameDocAccessFields_publisher
+  platforms: GameDocAccessFields_platforms
+  genres: GameDocAccessFields_genres
+  performances: GameDocAccessFields_performances
+  releaseDates: GameDocAccessFields_releaseDates
+  updatedAt: GameDocAccessFields_updatedAt
+  createdAt: GameDocAccessFields_createdAt
+}
+
+type GameDocAccessFields_igdbId {
+  create: GameDocAccessFields_igdbId_Create
+  read: GameDocAccessFields_igdbId_Read
+  update: GameDocAccessFields_igdbId_Update
+  delete: GameDocAccessFields_igdbId_Delete
+}
+
+type GameDocAccessFields_igdbId_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_igdbId_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_igdbId_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_igdbId_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_name {
+  create: GameDocAccessFields_name_Create
+  read: GameDocAccessFields_name_Read
+  update: GameDocAccessFields_name_Update
+  delete: GameDocAccessFields_name_Delete
+}
+
+type GameDocAccessFields_name_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_name_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_name_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_name_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_coverImage {
+  create: GameDocAccessFields_coverImage_Create
+  read: GameDocAccessFields_coverImage_Read
+  update: GameDocAccessFields_coverImage_Update
+  delete: GameDocAccessFields_coverImage_Delete
+}
+
+type GameDocAccessFields_coverImage_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_coverImage_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_coverImage_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_coverImage_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_rating {
+  create: GameDocAccessFields_rating_Create
+  read: GameDocAccessFields_rating_Read
+  update: GameDocAccessFields_rating_Update
+  delete: GameDocAccessFields_rating_Delete
+}
+
+type GameDocAccessFields_rating_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_rating_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_rating_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_rating_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_hype {
+  create: GameDocAccessFields_hype_Create
+  read: GameDocAccessFields_hype_Read
+  update: GameDocAccessFields_hype_Update
+  delete: GameDocAccessFields_hype_Delete
+}
+
+type GameDocAccessFields_hype_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_hype_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_hype_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_hype_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_summary {
+  create: GameDocAccessFields_summary_Create
+  read: GameDocAccessFields_summary_Read
+  update: GameDocAccessFields_summary_Update
+  delete: GameDocAccessFields_summary_Delete
+}
+
+type GameDocAccessFields_summary_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_summary_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_summary_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_summary_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_similarGames {
+  create: GameDocAccessFields_similarGames_Create
+  read: GameDocAccessFields_similarGames_Read
+  update: GameDocAccessFields_similarGames_Update
+  delete: GameDocAccessFields_similarGames_Delete
+}
+
+type GameDocAccessFields_similarGames_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_similarGames_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_similarGames_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_similarGames_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_developer {
+  create: GameDocAccessFields_developer_Create
+  read: GameDocAccessFields_developer_Read
+  update: GameDocAccessFields_developer_Update
+  delete: GameDocAccessFields_developer_Delete
+}
+
+type GameDocAccessFields_developer_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_developer_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_developer_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_developer_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_publisher {
+  create: GameDocAccessFields_publisher_Create
+  read: GameDocAccessFields_publisher_Read
+  update: GameDocAccessFields_publisher_Update
+  delete: GameDocAccessFields_publisher_Delete
+}
+
+type GameDocAccessFields_publisher_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_publisher_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_publisher_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_publisher_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_platforms {
+  create: GameDocAccessFields_platforms_Create
+  read: GameDocAccessFields_platforms_Read
+  update: GameDocAccessFields_platforms_Update
+  delete: GameDocAccessFields_platforms_Delete
+}
+
+type GameDocAccessFields_platforms_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_platforms_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_platforms_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_platforms_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres {
+  create: GameDocAccessFields_genres_Create
+  read: GameDocAccessFields_genres_Read
+  update: GameDocAccessFields_genres_Update
+  delete: GameDocAccessFields_genres_Delete
+  fields: GameDocAccessFields_genres_Fields
+}
+
+type GameDocAccessFields_genres_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres_Fields {
+  name: GameDocAccessFields_genres_name
+  id: GameDocAccessFields_genres_id
+}
+
+type GameDocAccessFields_genres_name {
+  create: GameDocAccessFields_genres_name_Create
+  read: GameDocAccessFields_genres_name_Read
+  update: GameDocAccessFields_genres_name_Update
+  delete: GameDocAccessFields_genres_name_Delete
+}
+
+type GameDocAccessFields_genres_name_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres_name_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres_name_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres_name_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres_id {
+  create: GameDocAccessFields_genres_id_Create
+  read: GameDocAccessFields_genres_id_Read
+  update: GameDocAccessFields_genres_id_Update
+  delete: GameDocAccessFields_genres_id_Delete
+}
+
+type GameDocAccessFields_genres_id_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres_id_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres_id_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_genres_id_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_performances {
+  create: GameDocAccessFields_performances_Create
+  read: GameDocAccessFields_performances_Read
+  update: GameDocAccessFields_performances_Update
+  delete: GameDocAccessFields_performances_Delete
+}
+
+type GameDocAccessFields_performances_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_performances_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_performances_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_performances_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates {
+  create: GameDocAccessFields_releaseDates_Create
+  read: GameDocAccessFields_releaseDates_Read
+  update: GameDocAccessFields_releaseDates_Update
+  delete: GameDocAccessFields_releaseDates_Delete
+  fields: GameDocAccessFields_releaseDates_Fields
+}
+
+type GameDocAccessFields_releaseDates_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_Fields {
+  date: GameDocAccessFields_releaseDates_date
+  region: GameDocAccessFields_releaseDates_region
+  platform: GameDocAccessFields_releaseDates_platform
+  id: GameDocAccessFields_releaseDates_id
+}
+
+type GameDocAccessFields_releaseDates_date {
+  create: GameDocAccessFields_releaseDates_date_Create
+  read: GameDocAccessFields_releaseDates_date_Read
+  update: GameDocAccessFields_releaseDates_date_Update
+  delete: GameDocAccessFields_releaseDates_date_Delete
+}
+
+type GameDocAccessFields_releaseDates_date_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_date_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_date_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_date_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_region {
+  create: GameDocAccessFields_releaseDates_region_Create
+  read: GameDocAccessFields_releaseDates_region_Read
+  update: GameDocAccessFields_releaseDates_region_Update
+  delete: GameDocAccessFields_releaseDates_region_Delete
+}
+
+type GameDocAccessFields_releaseDates_region_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_region_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_region_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_region_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_platform {
+  create: GameDocAccessFields_releaseDates_platform_Create
+  read: GameDocAccessFields_releaseDates_platform_Read
+  update: GameDocAccessFields_releaseDates_platform_Update
+  delete: GameDocAccessFields_releaseDates_platform_Delete
+}
+
+type GameDocAccessFields_releaseDates_platform_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_platform_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_platform_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_platform_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_id {
+  create: GameDocAccessFields_releaseDates_id_Create
+  read: GameDocAccessFields_releaseDates_id_Read
+  update: GameDocAccessFields_releaseDates_id_Update
+  delete: GameDocAccessFields_releaseDates_id_Delete
+}
+
+type GameDocAccessFields_releaseDates_id_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_id_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_id_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_releaseDates_id_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_updatedAt {
+  create: GameDocAccessFields_updatedAt_Create
+  read: GameDocAccessFields_updatedAt_Read
+  update: GameDocAccessFields_updatedAt_Update
+  delete: GameDocAccessFields_updatedAt_Delete
+}
+
+type GameDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_createdAt {
+  create: GameDocAccessFields_createdAt_Create
+  read: GameDocAccessFields_createdAt_Read
+  update: GameDocAccessFields_createdAt_Update
+  delete: GameDocAccessFields_createdAt_Delete
+}
+
+type GameDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GameDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GameCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GameReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GameUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type GameDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Consoles {
+  docs: [Console]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Console_where {
+  name: Console_name_operator
+  platformId: Console_platformId_operator
+  updatedAt: Console_updatedAt_operator
+  createdAt: Console_createdAt_operator
+  id: Console_id_operator
+  AND: [Console_where_and]
+  OR: [Console_where_or]
+}
+
+input Console_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Console_platformId_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input Console_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Console_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Console_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Console_where_and {
+  name: Console_name_operator
+  platformId: Console_platformId_operator
+  updatedAt: Console_updatedAt_operator
+  createdAt: Console_createdAt_operator
+  id: Console_id_operator
+  AND: [Console_where_and]
+  OR: [Console_where_or]
+}
+
+input Console_where_or {
+  name: Console_name_operator
+  platformId: Console_platformId_operator
+  updatedAt: Console_updatedAt_operator
+  createdAt: Console_createdAt_operator
+  id: Console_id_operator
+  AND: [Console_where_and]
+  OR: [Console_where_or]
+}
+
+type countConsoles {
+  totalDocs: Int
+}
+
+type consoleDocAccess {
+  fields: ConsoleDocAccessFields
+  create: ConsoleCreateDocAccess
+  read: ConsoleReadDocAccess
+  update: ConsoleUpdateDocAccess
+  delete: ConsoleDeleteDocAccess
+}
+
+type ConsoleDocAccessFields {
+  name: ConsoleDocAccessFields_name
+  platformId: ConsoleDocAccessFields_platformId
+  updatedAt: ConsoleDocAccessFields_updatedAt
+  createdAt: ConsoleDocAccessFields_createdAt
+}
+
+type ConsoleDocAccessFields_name {
+  create: ConsoleDocAccessFields_name_Create
+  read: ConsoleDocAccessFields_name_Read
+  update: ConsoleDocAccessFields_name_Update
+  delete: ConsoleDocAccessFields_name_Delete
+}
+
+type ConsoleDocAccessFields_name_Create {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_name_Read {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_name_Update {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_name_Delete {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_platformId {
+  create: ConsoleDocAccessFields_platformId_Create
+  read: ConsoleDocAccessFields_platformId_Read
+  update: ConsoleDocAccessFields_platformId_Update
+  delete: ConsoleDocAccessFields_platformId_Delete
+}
+
+type ConsoleDocAccessFields_platformId_Create {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_platformId_Read {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_platformId_Update {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_platformId_Delete {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_updatedAt {
+  create: ConsoleDocAccessFields_updatedAt_Create
+  read: ConsoleDocAccessFields_updatedAt_Read
+  update: ConsoleDocAccessFields_updatedAt_Update
+  delete: ConsoleDocAccessFields_updatedAt_Delete
+}
+
+type ConsoleDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_createdAt {
+  create: ConsoleDocAccessFields_createdAt_Create
+  read: ConsoleDocAccessFields_createdAt_Read
+  update: ConsoleDocAccessFields_createdAt_Update
+  delete: ConsoleDocAccessFields_createdAt_Delete
+}
+
+type ConsoleDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ConsoleDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ConsoleCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConsoleReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConsoleUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConsoleDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Information {
+  id: Int
+  gameId: Game!
+  information: String!
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+type allInformation {
+  docs: [Information]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Information_where {
+  gameId: Information_gameId_operator
+  information: Information_information_operator
+  updatedAt: Information_updatedAt_operator
+  createdAt: Information_createdAt_operator
+  id: Information_id_operator
+  AND: [Information_where_and]
+  OR: [Information_where_or]
+}
+
+input Information_gameId_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input Information_information_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+}
+
+input Information_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Information_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Information_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Information_where_and {
+  gameId: Information_gameId_operator
+  information: Information_information_operator
+  updatedAt: Information_updatedAt_operator
+  createdAt: Information_createdAt_operator
+  id: Information_id_operator
+  AND: [Information_where_and]
+  OR: [Information_where_or]
+}
+
+input Information_where_or {
+  gameId: Information_gameId_operator
+  information: Information_information_operator
+  updatedAt: Information_updatedAt_operator
+  createdAt: Information_createdAt_operator
+  id: Information_id_operator
+  AND: [Information_where_and]
+  OR: [Information_where_or]
+}
+
+type countallInformation {
+  totalDocs: Int
+}
+
+type informationDocAccess {
+  fields: InformationDocAccessFields
+  create: InformationCreateDocAccess
+  read: InformationReadDocAccess
+  update: InformationUpdateDocAccess
+  delete: InformationDeleteDocAccess
+}
+
+type InformationDocAccessFields {
+  gameId: InformationDocAccessFields_gameId
+  information: InformationDocAccessFields_information
+  updatedAt: InformationDocAccessFields_updatedAt
+  createdAt: InformationDocAccessFields_createdAt
+}
+
+type InformationDocAccessFields_gameId {
+  create: InformationDocAccessFields_gameId_Create
+  read: InformationDocAccessFields_gameId_Read
+  update: InformationDocAccessFields_gameId_Update
+  delete: InformationDocAccessFields_gameId_Delete
+}
+
+type InformationDocAccessFields_gameId_Create {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_gameId_Read {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_gameId_Update {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_gameId_Delete {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_information {
+  create: InformationDocAccessFields_information_Create
+  read: InformationDocAccessFields_information_Read
+  update: InformationDocAccessFields_information_Update
+  delete: InformationDocAccessFields_information_Delete
+}
+
+type InformationDocAccessFields_information_Create {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_information_Read {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_information_Update {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_information_Delete {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_updatedAt {
+  create: InformationDocAccessFields_updatedAt_Create
+  read: InformationDocAccessFields_updatedAt_Read
+  update: InformationDocAccessFields_updatedAt_Update
+  delete: InformationDocAccessFields_updatedAt_Delete
+}
+
+type InformationDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_createdAt {
+  create: InformationDocAccessFields_createdAt_Create
+  read: InformationDocAccessFields_createdAt_Read
+  update: InformationDocAccessFields_createdAt_Update
+  delete: InformationDocAccessFields_createdAt_Delete
+}
+
+type InformationDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type InformationDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type InformationCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type InformationReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type InformationUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type InformationDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Performances {
+  docs: [Performance]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Performance_where {
+  hdr: Performance_hdr_operator
+  threeDAudio: Performance_threeDAudio_operator
+  updated: Performance_updated_operator
+  console: Performance_console_operator
+  gameId: Performance_gameId_operator
+  performanceModes__name: Performance_performanceModes__name_operator
+  performanceModes__frameRate: Performance_performanceModes__frameRate_operator
+  performanceModes__resolution: Performance_performanceModes__resolution_operator
+  performanceModes__rayTracing: Performance_performanceModes__rayTracing_operator
+  performanceModes__upscalingMethod: Performance_performanceModes__upscalingMethod_operator
+  performanceModes__id: Performance_performanceModes__id_operator
+  updatedAt: Performance_updatedAt_operator
+  createdAt: Performance_createdAt_operator
+  id: Performance_id_operator
+  AND: [Performance_where_and]
+  OR: [Performance_where_or]
+}
+
+input Performance_hdr_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Performance_threeDAudio_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Performance_updated_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Performance_console_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input Performance_gameId_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input Performance_performanceModes__name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Performance_performanceModes__frameRate_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Performance_performanceModes__resolution_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Performance_performanceModes__rayTracing_operator {
+  equals: Boolean
+  not_equals: Boolean
+  exists: Boolean
+}
+
+input Performance_performanceModes__upscalingMethod_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Performance_performanceModes__id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Performance_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Performance_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Performance_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Performance_where_and {
+  hdr: Performance_hdr_operator
+  threeDAudio: Performance_threeDAudio_operator
+  updated: Performance_updated_operator
+  console: Performance_console_operator
+  gameId: Performance_gameId_operator
+  performanceModes__name: Performance_performanceModes__name_operator
+  performanceModes__frameRate: Performance_performanceModes__frameRate_operator
+  performanceModes__resolution: Performance_performanceModes__resolution_operator
+  performanceModes__rayTracing: Performance_performanceModes__rayTracing_operator
+  performanceModes__upscalingMethod: Performance_performanceModes__upscalingMethod_operator
+  performanceModes__id: Performance_performanceModes__id_operator
+  updatedAt: Performance_updatedAt_operator
+  createdAt: Performance_createdAt_operator
+  id: Performance_id_operator
+  AND: [Performance_where_and]
+  OR: [Performance_where_or]
+}
+
+input Performance_where_or {
+  hdr: Performance_hdr_operator
+  threeDAudio: Performance_threeDAudio_operator
+  updated: Performance_updated_operator
+  console: Performance_console_operator
+  gameId: Performance_gameId_operator
+  performanceModes__name: Performance_performanceModes__name_operator
+  performanceModes__frameRate: Performance_performanceModes__frameRate_operator
+  performanceModes__resolution: Performance_performanceModes__resolution_operator
+  performanceModes__rayTracing: Performance_performanceModes__rayTracing_operator
+  performanceModes__upscalingMethod: Performance_performanceModes__upscalingMethod_operator
+  performanceModes__id: Performance_performanceModes__id_operator
+  updatedAt: Performance_updatedAt_operator
+  createdAt: Performance_createdAt_operator
+  id: Performance_id_operator
+  AND: [Performance_where_and]
+  OR: [Performance_where_or]
+}
+
+type countPerformances {
+  totalDocs: Int
+}
+
+type performanceDocAccess {
+  fields: PerformanceDocAccessFields
+  create: PerformanceCreateDocAccess
+  read: PerformanceReadDocAccess
+  update: PerformanceUpdateDocAccess
+  delete: PerformanceDeleteDocAccess
+}
+
+type PerformanceDocAccessFields {
+  hdr: PerformanceDocAccessFields_hdr
+  threeDAudio: PerformanceDocAccessFields_threeDAudio
+  updated: PerformanceDocAccessFields_updated
+  console: PerformanceDocAccessFields_console
+  gameId: PerformanceDocAccessFields_gameId
+  performanceModes: PerformanceDocAccessFields_performanceModes
+  updatedAt: PerformanceDocAccessFields_updatedAt
+  createdAt: PerformanceDocAccessFields_createdAt
+}
+
+type PerformanceDocAccessFields_hdr {
+  create: PerformanceDocAccessFields_hdr_Create
+  read: PerformanceDocAccessFields_hdr_Read
+  update: PerformanceDocAccessFields_hdr_Update
+  delete: PerformanceDocAccessFields_hdr_Delete
+}
+
+type PerformanceDocAccessFields_hdr_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_hdr_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_hdr_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_hdr_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_threeDAudio {
+  create: PerformanceDocAccessFields_threeDAudio_Create
+  read: PerformanceDocAccessFields_threeDAudio_Read
+  update: PerformanceDocAccessFields_threeDAudio_Update
+  delete: PerformanceDocAccessFields_threeDAudio_Delete
+}
+
+type PerformanceDocAccessFields_threeDAudio_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_threeDAudio_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_threeDAudio_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_threeDAudio_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_updated {
+  create: PerformanceDocAccessFields_updated_Create
+  read: PerformanceDocAccessFields_updated_Read
+  update: PerformanceDocAccessFields_updated_Update
+  delete: PerformanceDocAccessFields_updated_Delete
+}
+
+type PerformanceDocAccessFields_updated_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_updated_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_updated_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_updated_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_console {
+  create: PerformanceDocAccessFields_console_Create
+  read: PerformanceDocAccessFields_console_Read
+  update: PerformanceDocAccessFields_console_Update
+  delete: PerformanceDocAccessFields_console_Delete
+}
+
+type PerformanceDocAccessFields_console_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_console_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_console_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_console_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_gameId {
+  create: PerformanceDocAccessFields_gameId_Create
+  read: PerformanceDocAccessFields_gameId_Read
+  update: PerformanceDocAccessFields_gameId_Update
+  delete: PerformanceDocAccessFields_gameId_Delete
+}
+
+type PerformanceDocAccessFields_gameId_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_gameId_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_gameId_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_gameId_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes {
+  create: PerformanceDocAccessFields_performanceModes_Create
+  read: PerformanceDocAccessFields_performanceModes_Read
+  update: PerformanceDocAccessFields_performanceModes_Update
+  delete: PerformanceDocAccessFields_performanceModes_Delete
+  fields: PerformanceDocAccessFields_performanceModes_Fields
+}
+
+type PerformanceDocAccessFields_performanceModes_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_Fields {
+  name: PerformanceDocAccessFields_performanceModes_name
+  frameRate: PerformanceDocAccessFields_performanceModes_frameRate
+  resolution: PerformanceDocAccessFields_performanceModes_resolution
+  rayTracing: PerformanceDocAccessFields_performanceModes_rayTracing
+  upscalingMethod: PerformanceDocAccessFields_performanceModes_upscalingMethod
+  id: PerformanceDocAccessFields_performanceModes_id
+}
+
+type PerformanceDocAccessFields_performanceModes_name {
+  create: PerformanceDocAccessFields_performanceModes_name_Create
+  read: PerformanceDocAccessFields_performanceModes_name_Read
+  update: PerformanceDocAccessFields_performanceModes_name_Update
+  delete: PerformanceDocAccessFields_performanceModes_name_Delete
+}
+
+type PerformanceDocAccessFields_performanceModes_name_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_name_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_name_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_name_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_frameRate {
+  create: PerformanceDocAccessFields_performanceModes_frameRate_Create
+  read: PerformanceDocAccessFields_performanceModes_frameRate_Read
+  update: PerformanceDocAccessFields_performanceModes_frameRate_Update
+  delete: PerformanceDocAccessFields_performanceModes_frameRate_Delete
+}
+
+type PerformanceDocAccessFields_performanceModes_frameRate_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_frameRate_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_frameRate_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_frameRate_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_resolution {
+  create: PerformanceDocAccessFields_performanceModes_resolution_Create
+  read: PerformanceDocAccessFields_performanceModes_resolution_Read
+  update: PerformanceDocAccessFields_performanceModes_resolution_Update
+  delete: PerformanceDocAccessFields_performanceModes_resolution_Delete
+}
+
+type PerformanceDocAccessFields_performanceModes_resolution_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_resolution_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_resolution_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_resolution_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_rayTracing {
+  create: PerformanceDocAccessFields_performanceModes_rayTracing_Create
+  read: PerformanceDocAccessFields_performanceModes_rayTracing_Read
+  update: PerformanceDocAccessFields_performanceModes_rayTracing_Update
+  delete: PerformanceDocAccessFields_performanceModes_rayTracing_Delete
+}
+
+type PerformanceDocAccessFields_performanceModes_rayTracing_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_rayTracing_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_rayTracing_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_rayTracing_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_upscalingMethod {
+  create: PerformanceDocAccessFields_performanceModes_upscalingMethod_Create
+  read: PerformanceDocAccessFields_performanceModes_upscalingMethod_Read
+  update: PerformanceDocAccessFields_performanceModes_upscalingMethod_Update
+  delete: PerformanceDocAccessFields_performanceModes_upscalingMethod_Delete
+}
+
+type PerformanceDocAccessFields_performanceModes_upscalingMethod_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_upscalingMethod_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_upscalingMethod_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_upscalingMethod_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_id {
+  create: PerformanceDocAccessFields_performanceModes_id_Create
+  read: PerformanceDocAccessFields_performanceModes_id_Read
+  update: PerformanceDocAccessFields_performanceModes_id_Update
+  delete: PerformanceDocAccessFields_performanceModes_id_Delete
+}
+
+type PerformanceDocAccessFields_performanceModes_id_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_id_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_id_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_performanceModes_id_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_updatedAt {
+  create: PerformanceDocAccessFields_updatedAt_Create
+  read: PerformanceDocAccessFields_updatedAt_Read
+  update: PerformanceDocAccessFields_updatedAt_Update
+  delete: PerformanceDocAccessFields_updatedAt_Delete
+}
+
+type PerformanceDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_createdAt {
+  create: PerformanceDocAccessFields_createdAt_Create
+  read: PerformanceDocAccessFields_createdAt_Read
+  update: PerformanceDocAccessFields_createdAt_Update
+  delete: PerformanceDocAccessFields_createdAt_Delete
+}
+
+type PerformanceDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type PerformanceDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type PerformanceCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PerformanceReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PerformanceUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PerformanceDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type Platforms {
+  docs: [Platform]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input Platform_where {
+  igdbId: Platform_igdbId_operator
+  name: Platform_name_operator
+  logo: Platform_logo_operator
+  consoles: Platform_consoles_operator
+  updatedAt: Platform_updatedAt_operator
+  createdAt: Platform_createdAt_operator
+  id: Platform_id_operator
+  AND: [Platform_where_and]
+  OR: [Platform_where_or]
+}
+
+input Platform_igdbId_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+  exists: Boolean
+}
+
+input Platform_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Platform_logo_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+}
+
+input Platform_consoles_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Platform_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Platform_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Platform_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input Platform_where_and {
+  igdbId: Platform_igdbId_operator
+  name: Platform_name_operator
+  logo: Platform_logo_operator
+  consoles: Platform_consoles_operator
+  updatedAt: Platform_updatedAt_operator
+  createdAt: Platform_createdAt_operator
+  id: Platform_id_operator
+  AND: [Platform_where_and]
+  OR: [Platform_where_or]
+}
+
+input Platform_where_or {
+  igdbId: Platform_igdbId_operator
+  name: Platform_name_operator
+  logo: Platform_logo_operator
+  consoles: Platform_consoles_operator
+  updatedAt: Platform_updatedAt_operator
+  createdAt: Platform_createdAt_operator
+  id: Platform_id_operator
+  AND: [Platform_where_and]
+  OR: [Platform_where_or]
+}
+
+type countPlatforms {
+  totalDocs: Int
+}
+
+type platformDocAccess {
+  fields: PlatformDocAccessFields
+  create: PlatformCreateDocAccess
+  read: PlatformReadDocAccess
+  update: PlatformUpdateDocAccess
+  delete: PlatformDeleteDocAccess
+}
+
+type PlatformDocAccessFields {
+  igdbId: PlatformDocAccessFields_igdbId
+  name: PlatformDocAccessFields_name
+  logo: PlatformDocAccessFields_logo
+  consoles: PlatformDocAccessFields_consoles
+  updatedAt: PlatformDocAccessFields_updatedAt
+  createdAt: PlatformDocAccessFields_createdAt
+}
+
+type PlatformDocAccessFields_igdbId {
+  create: PlatformDocAccessFields_igdbId_Create
+  read: PlatformDocAccessFields_igdbId_Read
+  update: PlatformDocAccessFields_igdbId_Update
+  delete: PlatformDocAccessFields_igdbId_Delete
+}
+
+type PlatformDocAccessFields_igdbId_Create {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_igdbId_Read {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_igdbId_Update {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_igdbId_Delete {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_name {
+  create: PlatformDocAccessFields_name_Create
+  read: PlatformDocAccessFields_name_Read
+  update: PlatformDocAccessFields_name_Update
+  delete: PlatformDocAccessFields_name_Delete
+}
+
+type PlatformDocAccessFields_name_Create {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_name_Read {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_name_Update {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_name_Delete {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_logo {
+  create: PlatformDocAccessFields_logo_Create
+  read: PlatformDocAccessFields_logo_Read
+  update: PlatformDocAccessFields_logo_Update
+  delete: PlatformDocAccessFields_logo_Delete
+}
+
+type PlatformDocAccessFields_logo_Create {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_logo_Read {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_logo_Update {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_logo_Delete {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_consoles {
+  create: PlatformDocAccessFields_consoles_Create
+  read: PlatformDocAccessFields_consoles_Read
+  update: PlatformDocAccessFields_consoles_Update
+  delete: PlatformDocAccessFields_consoles_Delete
+}
+
+type PlatformDocAccessFields_consoles_Create {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_consoles_Read {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_consoles_Update {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_consoles_Delete {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_updatedAt {
+  create: PlatformDocAccessFields_updatedAt_Create
+  read: PlatformDocAccessFields_updatedAt_Read
+  update: PlatformDocAccessFields_updatedAt_Update
+  delete: PlatformDocAccessFields_updatedAt_Delete
+}
+
+type PlatformDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_createdAt {
+  create: PlatformDocAccessFields_createdAt_Create
+  read: PlatformDocAccessFields_createdAt_Read
+  update: PlatformDocAccessFields_createdAt_Update
+  delete: PlatformDocAccessFields_createdAt_Delete
+}
+
+type PlatformDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type PlatformDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type PlatformCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PlatformReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PlatformUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PlatformDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
 }
 
 type allMedia {
@@ -693,13 +2695,12 @@ input Media_focalY_operator {
 }
 
 input Media_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
   exists: Boolean
 }
 
@@ -1062,8 +3063,255 @@ type MediaDeleteDocAccess {
   where: JSONObject
 }
 
+type User {
+  id: Int
+  updatedAt: DateTime
+  createdAt: DateTime
+  email: EmailAddress!
+  resetPasswordToken: String
+  resetPasswordExpiration: DateTime
+  salt: String
+  hash: String
+  loginAttempts: Float
+  lockUntil: DateTime
+  password: String!
+}
+
+"""
+A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address.
+"""
+scalar EmailAddress @specifiedBy(url: "https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address")
+
+type Users {
+  docs: [User]
+  hasNextPage: Boolean
+  hasPrevPage: Boolean
+  limit: Int
+  nextPage: Int
+  offset: Int
+  page: Int
+  pagingCounter: Int
+  prevPage: Int
+  totalDocs: Int
+  totalPages: Int
+}
+
+input User_where {
+  updatedAt: User_updatedAt_operator
+  createdAt: User_createdAt_operator
+  email: User_email_operator
+  id: User_id_operator
+  AND: [User_where_and]
+  OR: [User_where_or]
+}
+
+input User_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input User_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input User_email_operator {
+  equals: EmailAddress
+  not_equals: EmailAddress
+  like: EmailAddress
+  contains: EmailAddress
+  in: [EmailAddress]
+  not_in: [EmailAddress]
+  all: [EmailAddress]
+}
+
+input User_id_operator {
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
+  exists: Boolean
+}
+
+input User_where_and {
+  updatedAt: User_updatedAt_operator
+  createdAt: User_createdAt_operator
+  email: User_email_operator
+  id: User_id_operator
+  AND: [User_where_and]
+  OR: [User_where_or]
+}
+
+input User_where_or {
+  updatedAt: User_updatedAt_operator
+  createdAt: User_createdAt_operator
+  email: User_email_operator
+  id: User_id_operator
+  AND: [User_where_and]
+  OR: [User_where_or]
+}
+
+type countUsers {
+  totalDocs: Int
+}
+
+type usersDocAccess {
+  fields: UsersDocAccessFields
+  create: UsersCreateDocAccess
+  read: UsersReadDocAccess
+  update: UsersUpdateDocAccess
+  delete: UsersDeleteDocAccess
+  unlock: UsersUnlockDocAccess
+}
+
+type UsersDocAccessFields {
+  updatedAt: UsersDocAccessFields_updatedAt
+  createdAt: UsersDocAccessFields_createdAt
+  email: UsersDocAccessFields_email
+  password: UsersDocAccessFields_password
+}
+
+type UsersDocAccessFields_updatedAt {
+  create: UsersDocAccessFields_updatedAt_Create
+  read: UsersDocAccessFields_updatedAt_Read
+  update: UsersDocAccessFields_updatedAt_Update
+  delete: UsersDocAccessFields_updatedAt_Delete
+}
+
+type UsersDocAccessFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_createdAt {
+  create: UsersDocAccessFields_createdAt_Create
+  read: UsersDocAccessFields_createdAt_Read
+  update: UsersDocAccessFields_createdAt_Update
+  delete: UsersDocAccessFields_createdAt_Delete
+}
+
+type UsersDocAccessFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email {
+  create: UsersDocAccessFields_email_Create
+  read: UsersDocAccessFields_email_Read
+  update: UsersDocAccessFields_email_Update
+  delete: UsersDocAccessFields_email_Delete
+}
+
+type UsersDocAccessFields_email_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_email_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password {
+  create: UsersDocAccessFields_password_Create
+  read: UsersDocAccessFields_password_Read
+  update: UsersDocAccessFields_password_Update
+  delete: UsersDocAccessFields_password_Delete
+}
+
+type UsersDocAccessFields_password_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_password_Delete {
+  permission: Boolean!
+}
+
+type UsersCreateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersReadDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUpdateDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersDeleteDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUnlockDocAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type usersMe {
+  collection: String
+  exp: Int
+  strategy: String
+  token: String
+  user: User
+}
+
 type PayloadPreference {
-  id: String
+  id: Int
   user: PayloadPreference_User_Relationship!
   key: String
   value: JSON
@@ -1160,13 +3408,12 @@ input PayloadPreference_createdAt_operator {
 }
 
 input PayloadPreference_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
+  equals: Int
+  not_equals: Int
+  greater_than_equal: Int
+  greater_than: Int
+  less_than_equal: Int
+  less_than: Int
   exists: Boolean
 }
 
@@ -1349,268 +3596,1483 @@ type PayloadPreferencesDeleteDocAccess {
 
 type Access {
   canAccessAdmin: Boolean!
-  users: usersAccess
-  pages: pagesAccess
+  game_request: game_requestAccess
+  game: gameAccess
+  console: consoleAccess
+  information: informationAccess
+  performance: performanceAccess
+  platform: platformAccess
   media: mediaAccess
+  users: usersAccess
   payload_preferences: payload_preferencesAccess
 }
 
-type usersAccess {
-  fields: UsersFields
-  create: UsersCreateAccess
-  read: UsersReadAccess
-  update: UsersUpdateAccess
-  delete: UsersDeleteAccess
-  unlock: UsersUnlockAccess
+type game_requestAccess {
+  fields: GameRequestFields
+  create: GameRequestCreateAccess
+  read: GameRequestReadAccess
+  update: GameRequestUpdateAccess
+  delete: GameRequestDeleteAccess
 }
 
-type UsersFields {
-  updatedAt: UsersFields_updatedAt
-  createdAt: UsersFields_createdAt
-  email: UsersFields_email
-  password: UsersFields_password
+type GameRequestFields {
+  name: GameRequestFields_name
+  performance: GameRequestFields_performance
+  updatedAt: GameRequestFields_updatedAt
+  createdAt: GameRequestFields_createdAt
 }
 
-type UsersFields_updatedAt {
-  create: UsersFields_updatedAt_Create
-  read: UsersFields_updatedAt_Read
-  update: UsersFields_updatedAt_Update
-  delete: UsersFields_updatedAt_Delete
+type GameRequestFields_name {
+  create: GameRequestFields_name_Create
+  read: GameRequestFields_name_Read
+  update: GameRequestFields_name_Update
+  delete: GameRequestFields_name_Delete
 }
 
-type UsersFields_updatedAt_Create {
+type GameRequestFields_name_Create {
   permission: Boolean!
 }
 
-type UsersFields_updatedAt_Read {
+type GameRequestFields_name_Read {
   permission: Boolean!
 }
 
-type UsersFields_updatedAt_Update {
+type GameRequestFields_name_Update {
   permission: Boolean!
 }
 
-type UsersFields_updatedAt_Delete {
+type GameRequestFields_name_Delete {
   permission: Boolean!
 }
 
-type UsersFields_createdAt {
-  create: UsersFields_createdAt_Create
-  read: UsersFields_createdAt_Read
-  update: UsersFields_createdAt_Update
-  delete: UsersFields_createdAt_Delete
+type GameRequestFields_performance {
+  create: GameRequestFields_performance_Create
+  read: GameRequestFields_performance_Read
+  update: GameRequestFields_performance_Update
+  delete: GameRequestFields_performance_Delete
 }
 
-type UsersFields_createdAt_Create {
+type GameRequestFields_performance_Create {
   permission: Boolean!
 }
 
-type UsersFields_createdAt_Read {
+type GameRequestFields_performance_Read {
   permission: Boolean!
 }
 
-type UsersFields_createdAt_Update {
+type GameRequestFields_performance_Update {
   permission: Boolean!
 }
 
-type UsersFields_createdAt_Delete {
+type GameRequestFields_performance_Delete {
   permission: Boolean!
 }
 
-type UsersFields_email {
-  create: UsersFields_email_Create
-  read: UsersFields_email_Read
-  update: UsersFields_email_Update
-  delete: UsersFields_email_Delete
+type GameRequestFields_updatedAt {
+  create: GameRequestFields_updatedAt_Create
+  read: GameRequestFields_updatedAt_Read
+  update: GameRequestFields_updatedAt_Update
+  delete: GameRequestFields_updatedAt_Delete
 }
 
-type UsersFields_email_Create {
+type GameRequestFields_updatedAt_Create {
   permission: Boolean!
 }
 
-type UsersFields_email_Read {
+type GameRequestFields_updatedAt_Read {
   permission: Boolean!
 }
 
-type UsersFields_email_Update {
+type GameRequestFields_updatedAt_Update {
   permission: Boolean!
 }
 
-type UsersFields_email_Delete {
+type GameRequestFields_updatedAt_Delete {
   permission: Boolean!
 }
 
-type UsersFields_password {
-  create: UsersFields_password_Create
-  read: UsersFields_password_Read
-  update: UsersFields_password_Update
-  delete: UsersFields_password_Delete
+type GameRequestFields_createdAt {
+  create: GameRequestFields_createdAt_Create
+  read: GameRequestFields_createdAt_Read
+  update: GameRequestFields_createdAt_Update
+  delete: GameRequestFields_createdAt_Delete
 }
 
-type UsersFields_password_Create {
+type GameRequestFields_createdAt_Create {
   permission: Boolean!
 }
 
-type UsersFields_password_Read {
+type GameRequestFields_createdAt_Read {
   permission: Boolean!
 }
 
-type UsersFields_password_Update {
+type GameRequestFields_createdAt_Update {
   permission: Boolean!
 }
 
-type UsersFields_password_Delete {
+type GameRequestFields_createdAt_Delete {
   permission: Boolean!
 }
 
-type UsersCreateAccess {
-  permission: Boolean!
-  where: JSONObject
-}
-
-type UsersReadAccess {
+type GameRequestCreateAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type UsersUpdateAccess {
+type GameRequestReadAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type UsersDeleteAccess {
+type GameRequestUpdateAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type UsersUnlockAccess {
+type GameRequestDeleteAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type pagesAccess {
-  fields: PagesFields
-  create: PagesCreateAccess
-  read: PagesReadAccess
-  update: PagesUpdateAccess
-  delete: PagesDeleteAccess
+type gameAccess {
+  fields: GameFields
+  create: GameCreateAccess
+  read: GameReadAccess
+  update: GameUpdateAccess
+  delete: GameDeleteAccess
 }
 
-type PagesFields {
-  title: PagesFields_title
-  content: PagesFields_content
-  updatedAt: PagesFields_updatedAt
-  createdAt: PagesFields_createdAt
+type GameFields {
+  igdbId: GameFields_igdbId
+  name: GameFields_name
+  coverImage: GameFields_coverImage
+  rating: GameFields_rating
+  hype: GameFields_hype
+  summary: GameFields_summary
+  similarGames: GameFields_similarGames
+  developer: GameFields_developer
+  publisher: GameFields_publisher
+  platforms: GameFields_platforms
+  genres: GameFields_genres
+  performances: GameFields_performances
+  releaseDates: GameFields_releaseDates
+  updatedAt: GameFields_updatedAt
+  createdAt: GameFields_createdAt
 }
 
-type PagesFields_title {
-  create: PagesFields_title_Create
-  read: PagesFields_title_Read
-  update: PagesFields_title_Update
-  delete: PagesFields_title_Delete
+type GameFields_igdbId {
+  create: GameFields_igdbId_Create
+  read: GameFields_igdbId_Read
+  update: GameFields_igdbId_Update
+  delete: GameFields_igdbId_Delete
 }
 
-type PagesFields_title_Create {
+type GameFields_igdbId_Create {
   permission: Boolean!
 }
 
-type PagesFields_title_Read {
+type GameFields_igdbId_Read {
   permission: Boolean!
 }
 
-type PagesFields_title_Update {
+type GameFields_igdbId_Update {
   permission: Boolean!
 }
 
-type PagesFields_title_Delete {
+type GameFields_igdbId_Delete {
   permission: Boolean!
 }
 
-type PagesFields_content {
-  create: PagesFields_content_Create
-  read: PagesFields_content_Read
-  update: PagesFields_content_Update
-  delete: PagesFields_content_Delete
+type GameFields_name {
+  create: GameFields_name_Create
+  read: GameFields_name_Read
+  update: GameFields_name_Update
+  delete: GameFields_name_Delete
 }
 
-type PagesFields_content_Create {
+type GameFields_name_Create {
   permission: Boolean!
 }
 
-type PagesFields_content_Read {
+type GameFields_name_Read {
   permission: Boolean!
 }
 
-type PagesFields_content_Update {
+type GameFields_name_Update {
   permission: Boolean!
 }
 
-type PagesFields_content_Delete {
+type GameFields_name_Delete {
   permission: Boolean!
 }
 
-type PagesFields_updatedAt {
-  create: PagesFields_updatedAt_Create
-  read: PagesFields_updatedAt_Read
-  update: PagesFields_updatedAt_Update
-  delete: PagesFields_updatedAt_Delete
+type GameFields_coverImage {
+  create: GameFields_coverImage_Create
+  read: GameFields_coverImage_Read
+  update: GameFields_coverImage_Update
+  delete: GameFields_coverImage_Delete
 }
 
-type PagesFields_updatedAt_Create {
+type GameFields_coverImage_Create {
   permission: Boolean!
 }
 
-type PagesFields_updatedAt_Read {
+type GameFields_coverImage_Read {
   permission: Boolean!
 }
 
-type PagesFields_updatedAt_Update {
+type GameFields_coverImage_Update {
   permission: Boolean!
 }
 
-type PagesFields_updatedAt_Delete {
+type GameFields_coverImage_Delete {
   permission: Boolean!
 }
 
-type PagesFields_createdAt {
-  create: PagesFields_createdAt_Create
-  read: PagesFields_createdAt_Read
-  update: PagesFields_createdAt_Update
-  delete: PagesFields_createdAt_Delete
+type GameFields_rating {
+  create: GameFields_rating_Create
+  read: GameFields_rating_Read
+  update: GameFields_rating_Update
+  delete: GameFields_rating_Delete
 }
 
-type PagesFields_createdAt_Create {
+type GameFields_rating_Create {
   permission: Boolean!
 }
 
-type PagesFields_createdAt_Read {
+type GameFields_rating_Read {
   permission: Boolean!
 }
 
-type PagesFields_createdAt_Update {
+type GameFields_rating_Update {
   permission: Boolean!
 }
 
-type PagesFields_createdAt_Delete {
+type GameFields_rating_Delete {
   permission: Boolean!
 }
 
-type PagesCreateAccess {
+type GameFields_hype {
+  create: GameFields_hype_Create
+  read: GameFields_hype_Read
+  update: GameFields_hype_Update
+  delete: GameFields_hype_Delete
+}
+
+type GameFields_hype_Create {
+  permission: Boolean!
+}
+
+type GameFields_hype_Read {
+  permission: Boolean!
+}
+
+type GameFields_hype_Update {
+  permission: Boolean!
+}
+
+type GameFields_hype_Delete {
+  permission: Boolean!
+}
+
+type GameFields_summary {
+  create: GameFields_summary_Create
+  read: GameFields_summary_Read
+  update: GameFields_summary_Update
+  delete: GameFields_summary_Delete
+}
+
+type GameFields_summary_Create {
+  permission: Boolean!
+}
+
+type GameFields_summary_Read {
+  permission: Boolean!
+}
+
+type GameFields_summary_Update {
+  permission: Boolean!
+}
+
+type GameFields_summary_Delete {
+  permission: Boolean!
+}
+
+type GameFields_similarGames {
+  create: GameFields_similarGames_Create
+  read: GameFields_similarGames_Read
+  update: GameFields_similarGames_Update
+  delete: GameFields_similarGames_Delete
+}
+
+type GameFields_similarGames_Create {
+  permission: Boolean!
+}
+
+type GameFields_similarGames_Read {
+  permission: Boolean!
+}
+
+type GameFields_similarGames_Update {
+  permission: Boolean!
+}
+
+type GameFields_similarGames_Delete {
+  permission: Boolean!
+}
+
+type GameFields_developer {
+  create: GameFields_developer_Create
+  read: GameFields_developer_Read
+  update: GameFields_developer_Update
+  delete: GameFields_developer_Delete
+}
+
+type GameFields_developer_Create {
+  permission: Boolean!
+}
+
+type GameFields_developer_Read {
+  permission: Boolean!
+}
+
+type GameFields_developer_Update {
+  permission: Boolean!
+}
+
+type GameFields_developer_Delete {
+  permission: Boolean!
+}
+
+type GameFields_publisher {
+  create: GameFields_publisher_Create
+  read: GameFields_publisher_Read
+  update: GameFields_publisher_Update
+  delete: GameFields_publisher_Delete
+}
+
+type GameFields_publisher_Create {
+  permission: Boolean!
+}
+
+type GameFields_publisher_Read {
+  permission: Boolean!
+}
+
+type GameFields_publisher_Update {
+  permission: Boolean!
+}
+
+type GameFields_publisher_Delete {
+  permission: Boolean!
+}
+
+type GameFields_platforms {
+  create: GameFields_platforms_Create
+  read: GameFields_platforms_Read
+  update: GameFields_platforms_Update
+  delete: GameFields_platforms_Delete
+}
+
+type GameFields_platforms_Create {
+  permission: Boolean!
+}
+
+type GameFields_platforms_Read {
+  permission: Boolean!
+}
+
+type GameFields_platforms_Update {
+  permission: Boolean!
+}
+
+type GameFields_platforms_Delete {
+  permission: Boolean!
+}
+
+type GameFields_genres {
+  create: GameFields_genres_Create
+  read: GameFields_genres_Read
+  update: GameFields_genres_Update
+  delete: GameFields_genres_Delete
+  fields: GameFields_genres_Fields
+}
+
+type GameFields_genres_Create {
+  permission: Boolean!
+}
+
+type GameFields_genres_Read {
+  permission: Boolean!
+}
+
+type GameFields_genres_Update {
+  permission: Boolean!
+}
+
+type GameFields_genres_Delete {
+  permission: Boolean!
+}
+
+type GameFields_genres_Fields {
+  name: GameFields_genres_name
+  id: GameFields_genres_id
+}
+
+type GameFields_genres_name {
+  create: GameFields_genres_name_Create
+  read: GameFields_genres_name_Read
+  update: GameFields_genres_name_Update
+  delete: GameFields_genres_name_Delete
+}
+
+type GameFields_genres_name_Create {
+  permission: Boolean!
+}
+
+type GameFields_genres_name_Read {
+  permission: Boolean!
+}
+
+type GameFields_genres_name_Update {
+  permission: Boolean!
+}
+
+type GameFields_genres_name_Delete {
+  permission: Boolean!
+}
+
+type GameFields_genres_id {
+  create: GameFields_genres_id_Create
+  read: GameFields_genres_id_Read
+  update: GameFields_genres_id_Update
+  delete: GameFields_genres_id_Delete
+}
+
+type GameFields_genres_id_Create {
+  permission: Boolean!
+}
+
+type GameFields_genres_id_Read {
+  permission: Boolean!
+}
+
+type GameFields_genres_id_Update {
+  permission: Boolean!
+}
+
+type GameFields_genres_id_Delete {
+  permission: Boolean!
+}
+
+type GameFields_performances {
+  create: GameFields_performances_Create
+  read: GameFields_performances_Read
+  update: GameFields_performances_Update
+  delete: GameFields_performances_Delete
+}
+
+type GameFields_performances_Create {
+  permission: Boolean!
+}
+
+type GameFields_performances_Read {
+  permission: Boolean!
+}
+
+type GameFields_performances_Update {
+  permission: Boolean!
+}
+
+type GameFields_performances_Delete {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates {
+  create: GameFields_releaseDates_Create
+  read: GameFields_releaseDates_Read
+  update: GameFields_releaseDates_Update
+  delete: GameFields_releaseDates_Delete
+  fields: GameFields_releaseDates_Fields
+}
+
+type GameFields_releaseDates_Create {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_Read {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_Update {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_Delete {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_Fields {
+  date: GameFields_releaseDates_date
+  region: GameFields_releaseDates_region
+  platform: GameFields_releaseDates_platform
+  id: GameFields_releaseDates_id
+}
+
+type GameFields_releaseDates_date {
+  create: GameFields_releaseDates_date_Create
+  read: GameFields_releaseDates_date_Read
+  update: GameFields_releaseDates_date_Update
+  delete: GameFields_releaseDates_date_Delete
+}
+
+type GameFields_releaseDates_date_Create {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_date_Read {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_date_Update {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_date_Delete {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_region {
+  create: GameFields_releaseDates_region_Create
+  read: GameFields_releaseDates_region_Read
+  update: GameFields_releaseDates_region_Update
+  delete: GameFields_releaseDates_region_Delete
+}
+
+type GameFields_releaseDates_region_Create {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_region_Read {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_region_Update {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_region_Delete {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_platform {
+  create: GameFields_releaseDates_platform_Create
+  read: GameFields_releaseDates_platform_Read
+  update: GameFields_releaseDates_platform_Update
+  delete: GameFields_releaseDates_platform_Delete
+}
+
+type GameFields_releaseDates_platform_Create {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_platform_Read {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_platform_Update {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_platform_Delete {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_id {
+  create: GameFields_releaseDates_id_Create
+  read: GameFields_releaseDates_id_Read
+  update: GameFields_releaseDates_id_Update
+  delete: GameFields_releaseDates_id_Delete
+}
+
+type GameFields_releaseDates_id_Create {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_id_Read {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_id_Update {
+  permission: Boolean!
+}
+
+type GameFields_releaseDates_id_Delete {
+  permission: Boolean!
+}
+
+type GameFields_updatedAt {
+  create: GameFields_updatedAt_Create
+  read: GameFields_updatedAt_Read
+  update: GameFields_updatedAt_Update
+  delete: GameFields_updatedAt_Delete
+}
+
+type GameFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type GameFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type GameFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type GameFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type GameFields_createdAt {
+  create: GameFields_createdAt_Create
+  read: GameFields_createdAt_Read
+  update: GameFields_createdAt_Update
+  delete: GameFields_createdAt_Delete
+}
+
+type GameFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type GameFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type GameFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type GameFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type GameCreateAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type PagesReadAccess {
+type GameReadAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type PagesUpdateAccess {
+type GameUpdateAccess {
   permission: Boolean!
   where: JSONObject
 }
 
-type PagesDeleteAccess {
+type GameDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type consoleAccess {
+  fields: ConsoleFields
+  create: ConsoleCreateAccess
+  read: ConsoleReadAccess
+  update: ConsoleUpdateAccess
+  delete: ConsoleDeleteAccess
+}
+
+type ConsoleFields {
+  name: ConsoleFields_name
+  platformId: ConsoleFields_platformId
+  updatedAt: ConsoleFields_updatedAt
+  createdAt: ConsoleFields_createdAt
+}
+
+type ConsoleFields_name {
+  create: ConsoleFields_name_Create
+  read: ConsoleFields_name_Read
+  update: ConsoleFields_name_Update
+  delete: ConsoleFields_name_Delete
+}
+
+type ConsoleFields_name_Create {
+  permission: Boolean!
+}
+
+type ConsoleFields_name_Read {
+  permission: Boolean!
+}
+
+type ConsoleFields_name_Update {
+  permission: Boolean!
+}
+
+type ConsoleFields_name_Delete {
+  permission: Boolean!
+}
+
+type ConsoleFields_platformId {
+  create: ConsoleFields_platformId_Create
+  read: ConsoleFields_platformId_Read
+  update: ConsoleFields_platformId_Update
+  delete: ConsoleFields_platformId_Delete
+}
+
+type ConsoleFields_platformId_Create {
+  permission: Boolean!
+}
+
+type ConsoleFields_platformId_Read {
+  permission: Boolean!
+}
+
+type ConsoleFields_platformId_Update {
+  permission: Boolean!
+}
+
+type ConsoleFields_platformId_Delete {
+  permission: Boolean!
+}
+
+type ConsoleFields_updatedAt {
+  create: ConsoleFields_updatedAt_Create
+  read: ConsoleFields_updatedAt_Read
+  update: ConsoleFields_updatedAt_Update
+  delete: ConsoleFields_updatedAt_Delete
+}
+
+type ConsoleFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type ConsoleFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type ConsoleFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type ConsoleFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type ConsoleFields_createdAt {
+  create: ConsoleFields_createdAt_Create
+  read: ConsoleFields_createdAt_Read
+  update: ConsoleFields_createdAt_Update
+  delete: ConsoleFields_createdAt_Delete
+}
+
+type ConsoleFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type ConsoleFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type ConsoleFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type ConsoleFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type ConsoleCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConsoleReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConsoleUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type ConsoleDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type informationAccess {
+  fields: InformationFields
+  create: InformationCreateAccess
+  read: InformationReadAccess
+  update: InformationUpdateAccess
+  delete: InformationDeleteAccess
+}
+
+type InformationFields {
+  gameId: InformationFields_gameId
+  information: InformationFields_information
+  updatedAt: InformationFields_updatedAt
+  createdAt: InformationFields_createdAt
+}
+
+type InformationFields_gameId {
+  create: InformationFields_gameId_Create
+  read: InformationFields_gameId_Read
+  update: InformationFields_gameId_Update
+  delete: InformationFields_gameId_Delete
+}
+
+type InformationFields_gameId_Create {
+  permission: Boolean!
+}
+
+type InformationFields_gameId_Read {
+  permission: Boolean!
+}
+
+type InformationFields_gameId_Update {
+  permission: Boolean!
+}
+
+type InformationFields_gameId_Delete {
+  permission: Boolean!
+}
+
+type InformationFields_information {
+  create: InformationFields_information_Create
+  read: InformationFields_information_Read
+  update: InformationFields_information_Update
+  delete: InformationFields_information_Delete
+}
+
+type InformationFields_information_Create {
+  permission: Boolean!
+}
+
+type InformationFields_information_Read {
+  permission: Boolean!
+}
+
+type InformationFields_information_Update {
+  permission: Boolean!
+}
+
+type InformationFields_information_Delete {
+  permission: Boolean!
+}
+
+type InformationFields_updatedAt {
+  create: InformationFields_updatedAt_Create
+  read: InformationFields_updatedAt_Read
+  update: InformationFields_updatedAt_Update
+  delete: InformationFields_updatedAt_Delete
+}
+
+type InformationFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type InformationFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type InformationFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type InformationFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type InformationFields_createdAt {
+  create: InformationFields_createdAt_Create
+  read: InformationFields_createdAt_Read
+  update: InformationFields_createdAt_Update
+  delete: InformationFields_createdAt_Delete
+}
+
+type InformationFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type InformationFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type InformationFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type InformationFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type InformationCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type InformationReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type InformationUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type InformationDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type performanceAccess {
+  fields: PerformanceFields
+  create: PerformanceCreateAccess
+  read: PerformanceReadAccess
+  update: PerformanceUpdateAccess
+  delete: PerformanceDeleteAccess
+}
+
+type PerformanceFields {
+  hdr: PerformanceFields_hdr
+  threeDAudio: PerformanceFields_threeDAudio
+  updated: PerformanceFields_updated
+  console: PerformanceFields_console
+  gameId: PerformanceFields_gameId
+  performanceModes: PerformanceFields_performanceModes
+  updatedAt: PerformanceFields_updatedAt
+  createdAt: PerformanceFields_createdAt
+}
+
+type PerformanceFields_hdr {
+  create: PerformanceFields_hdr_Create
+  read: PerformanceFields_hdr_Read
+  update: PerformanceFields_hdr_Update
+  delete: PerformanceFields_hdr_Delete
+}
+
+type PerformanceFields_hdr_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_hdr_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_hdr_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_hdr_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_threeDAudio {
+  create: PerformanceFields_threeDAudio_Create
+  read: PerformanceFields_threeDAudio_Read
+  update: PerformanceFields_threeDAudio_Update
+  delete: PerformanceFields_threeDAudio_Delete
+}
+
+type PerformanceFields_threeDAudio_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_threeDAudio_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_threeDAudio_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_threeDAudio_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_updated {
+  create: PerformanceFields_updated_Create
+  read: PerformanceFields_updated_Read
+  update: PerformanceFields_updated_Update
+  delete: PerformanceFields_updated_Delete
+}
+
+type PerformanceFields_updated_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_updated_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_updated_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_updated_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_console {
+  create: PerformanceFields_console_Create
+  read: PerformanceFields_console_Read
+  update: PerformanceFields_console_Update
+  delete: PerformanceFields_console_Delete
+}
+
+type PerformanceFields_console_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_console_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_console_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_console_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_gameId {
+  create: PerformanceFields_gameId_Create
+  read: PerformanceFields_gameId_Read
+  update: PerformanceFields_gameId_Update
+  delete: PerformanceFields_gameId_Delete
+}
+
+type PerformanceFields_gameId_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_gameId_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_gameId_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_gameId_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes {
+  create: PerformanceFields_performanceModes_Create
+  read: PerformanceFields_performanceModes_Read
+  update: PerformanceFields_performanceModes_Update
+  delete: PerformanceFields_performanceModes_Delete
+  fields: PerformanceFields_performanceModes_Fields
+}
+
+type PerformanceFields_performanceModes_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_Fields {
+  name: PerformanceFields_performanceModes_name
+  frameRate: PerformanceFields_performanceModes_frameRate
+  resolution: PerformanceFields_performanceModes_resolution
+  rayTracing: PerformanceFields_performanceModes_rayTracing
+  upscalingMethod: PerformanceFields_performanceModes_upscalingMethod
+  id: PerformanceFields_performanceModes_id
+}
+
+type PerformanceFields_performanceModes_name {
+  create: PerformanceFields_performanceModes_name_Create
+  read: PerformanceFields_performanceModes_name_Read
+  update: PerformanceFields_performanceModes_name_Update
+  delete: PerformanceFields_performanceModes_name_Delete
+}
+
+type PerformanceFields_performanceModes_name_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_name_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_name_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_name_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_frameRate {
+  create: PerformanceFields_performanceModes_frameRate_Create
+  read: PerformanceFields_performanceModes_frameRate_Read
+  update: PerformanceFields_performanceModes_frameRate_Update
+  delete: PerformanceFields_performanceModes_frameRate_Delete
+}
+
+type PerformanceFields_performanceModes_frameRate_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_frameRate_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_frameRate_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_frameRate_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_resolution {
+  create: PerformanceFields_performanceModes_resolution_Create
+  read: PerformanceFields_performanceModes_resolution_Read
+  update: PerformanceFields_performanceModes_resolution_Update
+  delete: PerformanceFields_performanceModes_resolution_Delete
+}
+
+type PerformanceFields_performanceModes_resolution_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_resolution_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_resolution_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_resolution_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_rayTracing {
+  create: PerformanceFields_performanceModes_rayTracing_Create
+  read: PerformanceFields_performanceModes_rayTracing_Read
+  update: PerformanceFields_performanceModes_rayTracing_Update
+  delete: PerformanceFields_performanceModes_rayTracing_Delete
+}
+
+type PerformanceFields_performanceModes_rayTracing_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_rayTracing_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_rayTracing_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_rayTracing_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_upscalingMethod {
+  create: PerformanceFields_performanceModes_upscalingMethod_Create
+  read: PerformanceFields_performanceModes_upscalingMethod_Read
+  update: PerformanceFields_performanceModes_upscalingMethod_Update
+  delete: PerformanceFields_performanceModes_upscalingMethod_Delete
+}
+
+type PerformanceFields_performanceModes_upscalingMethod_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_upscalingMethod_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_upscalingMethod_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_upscalingMethod_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_id {
+  create: PerformanceFields_performanceModes_id_Create
+  read: PerformanceFields_performanceModes_id_Read
+  update: PerformanceFields_performanceModes_id_Update
+  delete: PerformanceFields_performanceModes_id_Delete
+}
+
+type PerformanceFields_performanceModes_id_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_id_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_id_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_performanceModes_id_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_updatedAt {
+  create: PerformanceFields_updatedAt_Create
+  read: PerformanceFields_updatedAt_Read
+  update: PerformanceFields_updatedAt_Update
+  delete: PerformanceFields_updatedAt_Delete
+}
+
+type PerformanceFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type PerformanceFields_createdAt {
+  create: PerformanceFields_createdAt_Create
+  read: PerformanceFields_createdAt_Read
+  update: PerformanceFields_createdAt_Update
+  delete: PerformanceFields_createdAt_Delete
+}
+
+type PerformanceFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type PerformanceFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type PerformanceFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type PerformanceFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type PerformanceCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PerformanceReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PerformanceUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PerformanceDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type platformAccess {
+  fields: PlatformFields
+  create: PlatformCreateAccess
+  read: PlatformReadAccess
+  update: PlatformUpdateAccess
+  delete: PlatformDeleteAccess
+}
+
+type PlatformFields {
+  igdbId: PlatformFields_igdbId
+  name: PlatformFields_name
+  logo: PlatformFields_logo
+  consoles: PlatformFields_consoles
+  updatedAt: PlatformFields_updatedAt
+  createdAt: PlatformFields_createdAt
+}
+
+type PlatformFields_igdbId {
+  create: PlatformFields_igdbId_Create
+  read: PlatformFields_igdbId_Read
+  update: PlatformFields_igdbId_Update
+  delete: PlatformFields_igdbId_Delete
+}
+
+type PlatformFields_igdbId_Create {
+  permission: Boolean!
+}
+
+type PlatformFields_igdbId_Read {
+  permission: Boolean!
+}
+
+type PlatformFields_igdbId_Update {
+  permission: Boolean!
+}
+
+type PlatformFields_igdbId_Delete {
+  permission: Boolean!
+}
+
+type PlatformFields_name {
+  create: PlatformFields_name_Create
+  read: PlatformFields_name_Read
+  update: PlatformFields_name_Update
+  delete: PlatformFields_name_Delete
+}
+
+type PlatformFields_name_Create {
+  permission: Boolean!
+}
+
+type PlatformFields_name_Read {
+  permission: Boolean!
+}
+
+type PlatformFields_name_Update {
+  permission: Boolean!
+}
+
+type PlatformFields_name_Delete {
+  permission: Boolean!
+}
+
+type PlatformFields_logo {
+  create: PlatformFields_logo_Create
+  read: PlatformFields_logo_Read
+  update: PlatformFields_logo_Update
+  delete: PlatformFields_logo_Delete
+}
+
+type PlatformFields_logo_Create {
+  permission: Boolean!
+}
+
+type PlatformFields_logo_Read {
+  permission: Boolean!
+}
+
+type PlatformFields_logo_Update {
+  permission: Boolean!
+}
+
+type PlatformFields_logo_Delete {
+  permission: Boolean!
+}
+
+type PlatformFields_consoles {
+  create: PlatformFields_consoles_Create
+  read: PlatformFields_consoles_Read
+  update: PlatformFields_consoles_Update
+  delete: PlatformFields_consoles_Delete
+}
+
+type PlatformFields_consoles_Create {
+  permission: Boolean!
+}
+
+type PlatformFields_consoles_Read {
+  permission: Boolean!
+}
+
+type PlatformFields_consoles_Update {
+  permission: Boolean!
+}
+
+type PlatformFields_consoles_Delete {
+  permission: Boolean!
+}
+
+type PlatformFields_updatedAt {
+  create: PlatformFields_updatedAt_Create
+  read: PlatformFields_updatedAt_Read
+  update: PlatformFields_updatedAt_Update
+  delete: PlatformFields_updatedAt_Delete
+}
+
+type PlatformFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type PlatformFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type PlatformFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type PlatformFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type PlatformFields_createdAt {
+  create: PlatformFields_createdAt_Create
+  read: PlatformFields_createdAt_Read
+  update: PlatformFields_createdAt_Update
+  delete: PlatformFields_createdAt_Delete
+}
+
+type PlatformFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type PlatformFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type PlatformFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type PlatformFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type PlatformCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PlatformReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PlatformUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type PlatformDeleteAccess {
   permission: Boolean!
   where: JSONObject
 }
@@ -1934,6 +5396,139 @@ type MediaDeleteAccess {
   where: JSONObject
 }
 
+type usersAccess {
+  fields: UsersFields
+  create: UsersCreateAccess
+  read: UsersReadAccess
+  update: UsersUpdateAccess
+  delete: UsersDeleteAccess
+  unlock: UsersUnlockAccess
+}
+
+type UsersFields {
+  updatedAt: UsersFields_updatedAt
+  createdAt: UsersFields_createdAt
+  email: UsersFields_email
+  password: UsersFields_password
+}
+
+type UsersFields_updatedAt {
+  create: UsersFields_updatedAt_Create
+  read: UsersFields_updatedAt_Read
+  update: UsersFields_updatedAt_Update
+  delete: UsersFields_updatedAt_Delete
+}
+
+type UsersFields_updatedAt_Create {
+  permission: Boolean!
+}
+
+type UsersFields_updatedAt_Read {
+  permission: Boolean!
+}
+
+type UsersFields_updatedAt_Update {
+  permission: Boolean!
+}
+
+type UsersFields_updatedAt_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_createdAt {
+  create: UsersFields_createdAt_Create
+  read: UsersFields_createdAt_Read
+  update: UsersFields_createdAt_Update
+  delete: UsersFields_createdAt_Delete
+}
+
+type UsersFields_createdAt_Create {
+  permission: Boolean!
+}
+
+type UsersFields_createdAt_Read {
+  permission: Boolean!
+}
+
+type UsersFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type UsersFields_createdAt_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_email {
+  create: UsersFields_email_Create
+  read: UsersFields_email_Read
+  update: UsersFields_email_Update
+  delete: UsersFields_email_Delete
+}
+
+type UsersFields_email_Create {
+  permission: Boolean!
+}
+
+type UsersFields_email_Read {
+  permission: Boolean!
+}
+
+type UsersFields_email_Update {
+  permission: Boolean!
+}
+
+type UsersFields_email_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_password {
+  create: UsersFields_password_Create
+  read: UsersFields_password_Read
+  update: UsersFields_password_Update
+  delete: UsersFields_password_Delete
+}
+
+type UsersFields_password_Create {
+  permission: Boolean!
+}
+
+type UsersFields_password_Read {
+  permission: Boolean!
+}
+
+type UsersFields_password_Update {
+  permission: Boolean!
+}
+
+type UsersFields_password_Delete {
+  permission: Boolean!
+}
+
+type UsersCreateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersReadAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUpdateAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersDeleteAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
+type UsersUnlockAccess {
+  permission: Boolean!
+  where: JSONObject
+}
+
 type payload_preferencesAccess {
   fields: PayloadPreferencesFields
   create: PayloadPreferencesCreateAccess
@@ -2086,87 +5681,205 @@ type PayloadPreferencesDeleteAccess {
 }
 
 type Mutation {
+  createGameRequest(data: mutationGameRequestInput!, draft: Boolean): GameRequest
+  updateGameRequest(id: Int!, autosave: Boolean, data: mutationGameRequestUpdateInput!, draft: Boolean): GameRequest
+  deleteGameRequest(id: Int!): GameRequest
+  duplicateGameRequest(id: Int!): GameRequest
+  createGame(data: mutationGameInput!, draft: Boolean): Game
+  updateGame(id: Int!, autosave: Boolean, data: mutationGameUpdateInput!, draft: Boolean): Game
+  deleteGame(id: Int!): Game
+  duplicateGame(id: Int!): Game
+  createConsole(data: mutationConsoleInput!, draft: Boolean): Console
+  updateConsole(id: Int!, autosave: Boolean, data: mutationConsoleUpdateInput!, draft: Boolean): Console
+  deleteConsole(id: Int!): Console
+  duplicateConsole(id: Int!): Console
+  createInformation(data: mutationInformationInput!, draft: Boolean): Information
+  updateInformation(id: Int!, autosave: Boolean, data: mutationInformationUpdateInput!, draft: Boolean): Information
+  deleteInformation(id: Int!): Information
+  duplicateInformation(id: Int!): Information
+  createPerformance(data: mutationPerformanceInput!, draft: Boolean): Performance
+  updatePerformance(id: Int!, autosave: Boolean, data: mutationPerformanceUpdateInput!, draft: Boolean): Performance
+  deletePerformance(id: Int!): Performance
+  duplicatePerformance(id: Int!): Performance
+  createPlatform(data: mutationPlatformInput!, draft: Boolean): Platform
+  updatePlatform(id: Int!, autosave: Boolean, data: mutationPlatformUpdateInput!, draft: Boolean): Platform
+  deletePlatform(id: Int!): Platform
+  duplicatePlatform(id: Int!): Platform
+  createMedia(data: mutationMediaInput!, draft: Boolean): Media
+  updateMedia(id: Int!, autosave: Boolean, data: mutationMediaUpdateInput!, draft: Boolean): Media
+  deleteMedia(id: Int!): Media
   createUser(data: mutationUserInput!, draft: Boolean): User
-  updateUser(id: String!, autosave: Boolean, data: mutationUserUpdateInput!, draft: Boolean): User
-  deleteUser(id: String!): User
-  refreshTokenUser(token: String): usersRefreshedUser
+  updateUser(id: Int!, autosave: Boolean, data: mutationUserUpdateInput!, draft: Boolean): User
+  deleteUser(id: Int!): User
+  refreshTokenUser: usersRefreshedUser
   logoutUser: String
   unlockUser(email: String!): Boolean!
-  loginUser(email: String, password: String): usersLoginResult
-  forgotPasswordUser(disableEmail: Boolean, email: String!, expiration: Int): Boolean!
+  loginUser(email: String!, password: String): usersLoginResult
+  forgotPasswordUser(disableEmail: Boolean, expiration: Int, email: String!): Boolean!
   resetPasswordUser(password: String, token: String): usersResetPassword
   verifyEmailUser(token: String): Boolean
-  createPage(data: mutationPageInput!, draft: Boolean): Page
-  updatePage(id: String!, autosave: Boolean, data: mutationPageUpdateInput!, draft: Boolean): Page
-  deletePage(id: String!): Page
-  duplicatePage(id: String!): Page
-  createMedia(data: mutationMediaInput!, draft: Boolean): Media
-  updateMedia(id: String!, autosave: Boolean, data: mutationMediaUpdateInput!, draft: Boolean): Media
-  deleteMedia(id: String!): Media
   createPayloadPreference(data: mutationPayloadPreferenceInput!, draft: Boolean): PayloadPreference
-  updatePayloadPreference(id: String!, autosave: Boolean, data: mutationPayloadPreferenceUpdateInput!, draft: Boolean): PayloadPreference
-  deletePayloadPreference(id: String!): PayloadPreference
-  duplicatePayloadPreference(id: String!): PayloadPreference
+  updatePayloadPreference(id: Int!, autosave: Boolean, data: mutationPayloadPreferenceUpdateInput!, draft: Boolean): PayloadPreference
+  deletePayloadPreference(id: Int!): PayloadPreference
+  duplicatePayloadPreference(id: Int!): PayloadPreference
 }
 
-input mutationUserInput {
-  updatedAt: String
-  createdAt: String
-  email: String!
-  resetPasswordToken: String
-  resetPasswordExpiration: String
-  salt: String
-  hash: String
-  loginAttempts: Float
-  lockUntil: String
-  password: String!
-}
-
-input mutationUserUpdateInput {
-  updatedAt: String
-  createdAt: String
-  email: String
-  resetPasswordToken: String
-  resetPasswordExpiration: String
-  salt: String
-  hash: String
-  loginAttempts: Float
-  lockUntil: String
-  password: String
-}
-
-type usersRefreshedUser {
-  exp: Int
-  refreshedToken: String
-  user: usersJWT
-}
-
-type usersJWT {
-  email: EmailAddress!
-  collection: String!
-}
-
-type usersLoginResult {
-  exp: Int
-  token: String
-  user: User
-}
-
-type usersResetPassword {
-  token: String
-  user: User
-}
-
-input mutationPageInput {
-  title: String
-  content: JSON
+input mutationGameRequestInput {
+  name: String!
+  performance: String
   updatedAt: String
   createdAt: String
 }
 
-input mutationPageUpdateInput {
-  title: String
-  content: JSON
+input mutationGameRequestUpdateInput {
+  name: String
+  performance: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGameInput {
+  igdbId: Float
+  name: String!
+  coverImage: Int
+  rating: Float
+  hype: Float
+  summary: String
+  similarGames: [Float]
+  developer: String!
+  publisher: String!
+  platforms: [Int]
+  genres: [mutationGame_GenresInput]
+  performances: [Int]
+  releaseDates: [mutationGame_ReleaseDatesInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGame_GenresInput {
+  name: String!
+  id: String
+}
+
+input mutationGame_ReleaseDatesInput {
+  date: String
+  region: String!
+  platform: Int
+  id: String
+}
+
+input mutationGameUpdateInput {
+  igdbId: Float
+  name: String
+  coverImage: Int
+  rating: Float
+  hype: Float
+  summary: String
+  similarGames: [Float]
+  developer: String
+  publisher: String
+  platforms: [Int]
+  genres: [mutationGameUpdate_GenresInput]
+  performances: [Int]
+  releaseDates: [mutationGameUpdate_ReleaseDatesInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationGameUpdate_GenresInput {
+  name: String!
+  id: String
+}
+
+input mutationGameUpdate_ReleaseDatesInput {
+  date: String
+  region: String!
+  platform: Int
+  id: String
+}
+
+input mutationConsoleInput {
+  name: String!
+  platformId: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationConsoleUpdateInput {
+  name: String
+  platformId: Int
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationInformationInput {
+  gameId: Int
+  information: String!
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationInformationUpdateInput {
+  gameId: Int
+  information: String
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationPerformanceInput {
+  hdr: Boolean
+  threeDAudio: Boolean
+  updated: String
+  console: Int
+  gameId: Int
+  performanceModes: [mutationPerformance_PerformanceModesInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationPerformance_PerformanceModesInput {
+  name: String!
+  frameRate: String!
+  resolution: String!
+  rayTracing: Boolean
+  upscalingMethod: String
+  id: String
+}
+
+input mutationPerformanceUpdateInput {
+  hdr: Boolean
+  threeDAudio: Boolean
+  updated: String
+  console: Int
+  gameId: Int
+  performanceModes: [mutationPerformanceUpdate_PerformanceModesInput]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationPerformanceUpdate_PerformanceModesInput {
+  name: String!
+  frameRate: String!
+  resolution: String!
+  rayTracing: Boolean
+  upscalingMethod: String
+  id: String
+}
+
+input mutationPlatformInput {
+  igdbId: Float
+  name: String!
+  logo: Int
+  consoles: [Int]
+  updatedAt: String
+  createdAt: String
+}
+
+input mutationPlatformUpdateInput {
+  igdbId: Float
+  name: String
+  logo: Int
+  consoles: [Int]
   updatedAt: String
   createdAt: String
 }
@@ -2199,6 +5912,55 @@ input mutationMediaUpdateInput {
   height: Float
   focalX: Float
   focalY: Float
+}
+
+input mutationUserInput {
+  updatedAt: String
+  createdAt: String
+  email: String!
+  resetPasswordToken: String
+  resetPasswordExpiration: String
+  salt: String
+  hash: String
+  loginAttempts: Float
+  lockUntil: String
+  password: String!
+}
+
+input mutationUserUpdateInput {
+  updatedAt: String
+  createdAt: String
+  email: String
+  resetPasswordToken: String
+  resetPasswordExpiration: String
+  salt: String
+  hash: String
+  loginAttempts: Float
+  lockUntil: String
+  password: String
+}
+
+type usersRefreshedUser {
+  exp: Int
+  refreshedToken: String
+  strategy: String
+  user: usersJWT
+}
+
+type usersJWT {
+  email: EmailAddress!
+  collection: String!
+}
+
+type usersLoginResult {
+  exp: Int
+  token: String
+  user: User
+}
+
+type usersResetPassword {
+  token: String
+  user: User
 }
 
 input mutationPayloadPreferenceInput {

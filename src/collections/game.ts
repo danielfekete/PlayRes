@@ -48,36 +48,37 @@ export const GamesCollection: CollectionConfig = {
     },
     {
       name: 'developer',
-      type: 'text',
-      required: true,
+      type: 'relationship',
+      relationTo: 'developer',
+      required: false,
     },
     {
       name: 'publisher',
-      type: 'text',
-      required: true,
+      type: 'relationship',
+      relationTo: 'publisher',
+      required: false,
     },
     {
       name: 'platforms',
       type: 'relationship',
       relationTo: 'platform',
+
       hasMany: true,
+      required: true,
     },
     {
       name: 'genres',
-      type: 'array',
-      fields: [
-        {
-          name: 'name',
-          type: 'text',
-          required: true,
-        },
-      ],
+      type: 'relationship',
+      relationTo: 'genre',
+      hasMany: true,
+      required: true,
     },
     {
       name: 'performances',
       type: 'relationship',
       relationTo: 'performance',
       hasMany: true,
+      defaultValue: [],
     },
     {
       name: 'releaseDates',
@@ -100,6 +101,7 @@ export const GamesCollection: CollectionConfig = {
           required: true,
         },
       ],
+      defaultValue: [],
     },
   ],
 }

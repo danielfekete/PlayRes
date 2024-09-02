@@ -1,5 +1,5 @@
-"use client";
-import React from "react";
+'use client'
+import React from 'react'
 import {
   Pagination,
   PaginationContent,
@@ -7,31 +7,31 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "../ui/pagination";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+} from '../ui/pagination'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 interface GamesPaginationProps {
-  totalPages: number;
+  totalPages: number
 }
 
 export default function GamesPagination({ totalPages }: GamesPaginationProps) {
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
-  const pathName = usePathname();
-  const currentPage = Number(searchParams.get("page")) || 1;
+  const searchParams = useSearchParams()
+  const { replace } = useRouter()
+  const pathName = usePathname()
+  const currentPage = Number(searchParams.get('page')) || 1
 
   const handleChange = (page: number) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams)
 
     if (page < 1) {
-      page = 1;
+      page = 1
     }
     if (page > totalPages) {
-      page = totalPages;
+      page = totalPages
     }
-    params.set("page", page.toString());
-    replace(`${pathName}?${params.toString()}`);
-  };
+    params.set('page', page.toString())
+    replace(`${pathName}?${params.toString()}`)
+  }
 
   return (
     <div className="mt-8 flex justify-center">
@@ -65,5 +65,5 @@ export default function GamesPagination({ totalPages }: GamesPaginationProps) {
         </PaginationContent>
       </Pagination>
     </div>
-  );
+  )
 }

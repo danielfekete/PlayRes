@@ -3,10 +3,10 @@
  * @see https://v0.dev/t/g6tN4oZ8k5Y
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
-import Link from "next/link";
-import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Gamepad2 } from "lucide-react";
+import Link from 'next/link'
+import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet'
+import { Button } from '@/components/ui/button'
+import { Gamepad2 } from 'lucide-react'
 
 export function Navbar() {
   return (
@@ -76,7 +76,7 @@ export function Navbar() {
         </Sheet>
       </div>
     </div>
-  );
+  )
 }
 
 function MenuIcon(props) {
@@ -97,7 +97,7 @@ function MenuIcon(props) {
       <line x1="4" x2="20" y1="6" y2="6" />
       <line x1="4" x2="20" y1="18" y2="18" />
     </svg>
-  );
+  )
 }
 
 function MountainIcon(props) {
@@ -116,5 +116,5 @@ function MountainIcon(props) {
     >
       <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
     </svg>
-  );
+  )
 }

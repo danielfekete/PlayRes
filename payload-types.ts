@@ -18,6 +18,9 @@ export interface Config {
     performance: Performance;
     platform: Platform;
     media: Media;
+    developer: Developer;
+    publisher: Publisher;
+    genre: Genre;
     users: User;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -73,15 +76,10 @@ export interface Game {
   hype?: number | null;
   summary?: string | null;
   similarGames?: number[] | null;
-  developer: string;
-  publisher: string;
-  platforms?: (number | Platform)[] | null;
-  genres?:
-    | {
-        name: string;
-        id?: string | null;
-      }[]
-    | null;
+  developer?: (number | null) | Developer;
+  publisher?: (number | null) | Publisher;
+  platforms: (number | Platform)[];
+  genres: (number | Genre)[];
   performances?: (number | Performance)[] | null;
   releaseDates?:
     | {
@@ -115,6 +113,26 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "developer".
+ */
+export interface Developer {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "publisher".
+ */
+export interface Publisher {
+  id: number;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "platform".
  */
 export interface Platform {
@@ -134,6 +152,16 @@ export interface Console {
   id: number;
   name: string;
   platformId: number | Platform;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genre".
+ */
+export interface Genre {
+  id: number;
+  name: string;
   updatedAt: string;
   createdAt: string;
 }

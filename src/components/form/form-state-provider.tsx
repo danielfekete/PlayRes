@@ -1,11 +1,11 @@
-import { FormState } from "@/types/formState";
-import React from "react";
-import FormErrorMessage from "./form-error-message";
-import FormIssues from "./form-issues";
-import FormSuccessMessage from "./form-success-message";
+import { FormState } from '@/types/form-state'
+import React from 'react'
+import FormErrorMessage from './form-error-message'
+import FormIssues from './form-issues'
+import FormSuccessMessage from './form-success-message'
 
 interface Props {
-  formState: FormState;
+  formState: FormState
 }
 
 export default function FormStateProvider({
@@ -25,5 +25,5 @@ export default function FormStateProvider({
       ) : null}
       <div>{children}</div>
     </div>
-  );
+  )
 }
