@@ -4,7 +4,7 @@ import MostHyped from '@/components/showcase/most-hyped'
 import { ShowcaseSkeleton } from '@/components/skeletons'
 import { Welcome } from '@/components/welcome'
 import { Suspense } from 'react'
-import Masterpieces from '@/components/showcase/masterpieces'
+import CriticallyAcclaimed from '@/components/showcase/critically-acclaimed'
 
 export default async function Home() {
   return (
@@ -25,7 +25,7 @@ export default async function Home() {
           <MostHyped />
         </Suspense>
         <Suspense fallback={<ShowcaseSkeleton />}>
-          <Masterpieces />
+          <CriticallyAcclaimed />
         </Suspense>
       </div>
     </div>

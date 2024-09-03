@@ -5,9 +5,19 @@ import { Button } from '../ui/button'
 import { SearchIcon } from 'lucide-react'
 import { useDebouncedCallback } from 'use-debounce'
 import { useRouter } from 'next/navigation'
+import { Media, Platform } from 'payload-types'
+import Image from 'next/image'
+import Link from 'next/link'
 
 export default function LiveSearchGames() {
-  const [searchResults, setSearchResults] = useState([])
+  const [searchResults, setSearchResults] = useState<
+    {
+      id: number
+      name: string
+      coverImage: Media
+      platforms: Platform[]
+    }[]
+  >([])
   const [showResults, setShowResults] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
 
@@ -58,17 +68,24 @@ export default function LiveSearchGames() {
             <p className="p-4"> No results</p>
           ) : (
             <ul className="divide-y divide-muted/50">
-              {searchResults.map((game) => (
-                <li key={game.id} className="p-4 hover:bg-muted/50 cursor-pointer">
-                  <div className="flex gap-3">
-                    <div>
-                      <img src={game.coverImage} alt={game.name} width={60} height={60} />
+              {searchResults.map(({ id, coverImage, name }) => (
+                <Link key={id} href={`/games/${id}`}>
+                  <li className="p-4 hover:bg-muted/50 cursor-pointer">
+                    <div className="flex gap-3">
+                      <div>
+                        <Image
+                          src={coverImage.url || ''}
+                          alt={coverImage.text || ''}
+                          width={60}
+                          height={60}
+                        />
+                      </div>
+                      <div className="flex items-center">
+                        <h3 className="text-xl">{name}</h3>
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                      <h3 className="text-xl">{game.name}</h3>
-                    </div>
-                  </div>
-                </li>
+                  </li>
+                </Link>
               ))}
             </ul>
           )}
