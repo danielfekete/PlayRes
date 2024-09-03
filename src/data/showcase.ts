@@ -5,7 +5,7 @@ export const getRecentlyReleasedGames = async () => {
   try {
     const { docs } = await payload.find({
       collection: 'game',
-      sort: '-releaseDate',
+      sort: '-firstReleaseDate',
       limit: 6,
     })
 

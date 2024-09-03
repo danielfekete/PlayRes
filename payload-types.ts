@@ -81,14 +81,13 @@ export interface Game {
   platforms: (number | Platform)[];
   genres: (number | Genre)[];
   performances?: (number | Performance)[] | null;
-  releaseDates?:
-    | {
-        date?: string | null;
-        region: string;
-        platform: number | Platform;
-        id?: string | null;
-      }[]
-    | null;
+  firstReleaseDate?: string | null;
+  releaseDates: {
+    date?: string | null;
+    region: string;
+    platform: number | Platform;
+    id?: string | null;
+  }[];
   updatedAt: string;
   createdAt: string;
 }
@@ -176,16 +175,14 @@ export interface Performance {
   updated?: string | null;
   console: number | Console;
   gameId: number | Game;
-  performanceModes?:
-    | {
-        name: string;
-        frameRate: string;
-        resolution: string;
-        rayTracing?: boolean | null;
-        upscalingMethod?: string | null;
-        id?: string | null;
-      }[]
-    | null;
+  performanceModes: {
+    name: string;
+    frameRate: string;
+    resolution: string;
+    rayTracing?: boolean | null;
+    upscalingMethod?: string | null;
+    id?: string | null;
+  }[];
   updatedAt: string;
   createdAt: string;
 }

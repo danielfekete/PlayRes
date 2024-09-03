@@ -66,6 +66,8 @@ export const performancesCollection: CollectionConfig = {
           required: false,
         },
       ],
+      defaultValue: [],
+      required: true,
     },
   ],
 }

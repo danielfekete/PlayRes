@@ -26,6 +26,7 @@ export const listGamesMap = (game: Game) => {
   return {
     id: game.id,
     name: game.name,
+    rating: game.rating,
     coverImage: game.coverImage as Media,
     platforms: game.platforms as Platform[],
     performanceTags: getPerformanceTags(performances),

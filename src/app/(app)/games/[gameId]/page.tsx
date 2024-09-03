@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { getGame } from '@/data/game'
 import { format } from 'date-fns'
 import Image from 'next/image'
+import { Console, Media } from 'payload-types'
 
 export default async function Game({ params: { gameId } }: { params: { gameId: string } }) {
   const data = await getGame(Number(gameId))
@@ -54,16 +55,20 @@ export default async function Game({ params: { gameId } }: { params: { gameId: s
             <div>
               <div className="text-sm font-medium text-muted-foreground">Platforms</div>
               <div className="text-base font-medium space-x-2">
-                {data.platforms.map(({ id, logo }) => (
-                  <Image
-                    key={id}
-                    src={logo.url}
-                    alt={logo.text}
-                    width={20}
-                    height={20}
-                    className="inline-block"
-                  />
-                ))}
+                {data.platforms.map((platform) => {
+                  const logo = platform.logo as Media
+                  const { id } = platform
+                  return (
+                    <Image
+                      key={id}
+                      src={logo.url || ''}
+                      alt={logo.text || ''}
+                      width={20}
+                      height={20}
+                      className="inline-block"
+                    />
+                  )
+                })}
               </div>
             </div>
             <div>
@@ -79,18 +84,21 @@ export default async function Game({ params: { gameId } }: { params: { gameId: s
           </div>
           <div className="space-y-2 py-4">
             <div className="text-base">Is there missing or incorrect information?</div>
-            <UpdateGameDialog gameName={data.name} />
+            <UpdateGameDialog gameName={data.name} gameId={gameId} />
           </div>
         </div>
       </div>
       <div className="space-y-2">
         <h3 className="text-2xl font-bold">Performance</h3>
-        <div className="space-y-4">
-          {data.performances.map(
-            ({ console: { name }, hdr, threeDAudio, updated, performanceModes, id }) => {
+        {data.performances.length > 0 ? (
+          <div className="space-y-4">
+            {data.performances.map((performance) => {
+              const console = performance.console as Console
+              const { id, performanceModes, hdr, threeDAudio } = performance
+
               return (
                 <div key={id} className="border border-gray-300 p-4 rounded-lg shadow-md">
-                  <div className="text-base font-medium">{name}</div>
+                  <div className="text-base font-medium">{console.name}</div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                     {performanceModes.map(
                       ({ id, frameRate, resolution, rayTracing, upscalingMethod, name }) => (
@@ -130,9 +138,18 @@ export default async function Game({ params: { gameId } }: { params: { gameId: s
                   </div>
                 </div>
               )
-            },
-          )}
-        </div>
+            })}
+          </div>
+        ) : null}
+        {data.performances.length === 0 ? (
+          <>
+            <div className="text-base font-medium">No performance data available</div>
+            <div className="text-sm text-muted-foreground">
+              If you have performance data for this game, please consider contributing by clicking
+              the button above.
+            </div>
+          </>
+        ) : null}
       </div>
     </div>
   )

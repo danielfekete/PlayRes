@@ -1,20 +1,19 @@
-"use client";
-import React, { useCallback, useState } from "react";
-import { Button } from "../ui/button";
-import { Developer, Genre, Platform, Publisher } from "@prisma/client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
-import { MultiSelect } from "../multi-select";
-import { Input } from "../ui/input";
-import SearchGames from "./search-games";
-import { CircleX } from "lucide-react";
+'use client'
+import React, { useCallback, useState } from 'react'
+import { Button } from '../ui/button'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import Image from 'next/image'
+import { cn } from '@/lib/utils'
+import { MultiSelect } from '../multi-select'
+import SearchGames from './search-games'
+import { CircleX } from 'lucide-react'
+import { Developer, Genre, Media, Platform, Publisher } from 'payload-types'
 
 interface FilterGamesProps {
-  platforms: Platform[];
-  publishers: Publisher[];
-  developers: Developer[];
-  genres: Genre[];
+  platforms: Platform[]
+  publishers: Publisher[]
+  developers: Developer[]
+  genres: Genre[]
 }
 
 export default function FilterGames({
@@ -23,82 +22,75 @@ export default function FilterGames({
   publishers,
   genres,
 }: FilterGamesProps) {
-  const { replace } = useRouter();
-  const pathname = usePathname();
+  const { replace } = useRouter()
+  const pathname = usePathname()
   // Handle search params
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams()
 
-  const [selectedGenres, setSelectedGenres] = useState(
-    searchParams.getAll("genres") || []
-  );
+  const [selectedGenres, setSelectedGenres] = useState(searchParams.getAll('genres') || [])
   const [selectedPublishers, setSelectedPublishers] = useState(
-    searchParams.getAll("publishers") || []
-  );
+    searchParams.getAll('publishers') || [],
+  )
   const [selectedDevelopers, setSelectedDevelopers] = useState(
-    searchParams.getAll("developers") || []
-  );
-  const [selectedPlatforms, setSelectedPlatforms] = useState(
-    searchParams.getAll("platforms") || []
-  );
+    searchParams.getAll('developers') || [],
+  )
+  const [selectedPlatforms, setSelectedPlatforms] = useState(searchParams.getAll('platforms') || [])
 
   const handleSelect = useCallback(
-    (
-      key: "platforms" | "publishers" | "genres" | "developers",
-      selected: string[]
-    ) => {
-      const params = new URLSearchParams(searchParams);
+    (key: 'platforms' | 'publishers' | 'genres' | 'developers', selected: string[]) => {
+      const params = new URLSearchParams(searchParams)
 
       if (selected.length) {
-        params.delete(key);
+        params.delete(key)
         selected.forEach((platform) => {
-          params.append(key, platform);
-        });
+          params.append(key, platform)
+        })
       } else {
-        params.delete(key);
+        params.delete(key)
       }
-      replace(`${pathname}?${params.toString()}`);
+      replace(`${pathname}?${params.toString()}`)
     },
-    [pathname, replace, searchParams]
-  );
+    [pathname, replace, searchParams],
+  )
 
   // Developers
   const handleSelectDevelopers = (selected: string[]) => {
-    setSelectedDevelopers(selected);
-    handleSelect("developers", selected);
-  };
+    setSelectedDevelopers(selected)
+    handleSelect('developers', selected)
+  }
 
   // Publishers
   const handleSelectPublishers = (selected: string[]) => {
-    setSelectedPublishers(selected);
-    handleSelect("publishers", selected);
-  };
+    setSelectedPublishers(selected)
+    handleSelect('publishers', selected)
+  }
 
   // Genres
   const handleSelectGenres = (selected: string[]) => {
-    setSelectedGenres(selected);
-    handleSelect("genres", selected);
-  };
+    setSelectedGenres(selected)
+    handleSelect('genres', selected)
+  }
 
   // Platforms
   const handleSelectPlatforms = (platform: string) => {
-    let newSelectedPlatforms = [];
+    let newSelectedPlatforms = []
     if (selectedPlatforms.includes(platform)) {
-      newSelectedPlatforms = selectedPlatforms.filter((p) => p !== platform);
+      newSelectedPlatforms = selectedPlatforms.filter((p) => p !== platform)
     } else {
-      newSelectedPlatforms = [...selectedPlatforms, platform];
+      newSelectedPlatforms = [...selectedPlatforms, platform]
     }
-    console.log(newSelectedPlatforms);
-    setSelectedPlatforms(newSelectedPlatforms);
-    handleSelect("platforms", newSelectedPlatforms);
-  };
+    console.log(newSelectedPlatforms)
+    setSelectedPlatforms(newSelectedPlatforms)
+    handleSelect('platforms', newSelectedPlatforms)
+  }
 
   const handleResetFilters = () => {
-    setSelectedGenres([]);
-    setSelectedPublishers([]);
-    setSelectedDevelopers([]);
-    setSelectedPlatforms([]);
-    replace(pathname);
-  };
+    setSelectedGenres([])
+    setSelectedPublishers([])
+    setSelectedDevelopers([])
+    setSelectedPlatforms([])
+    replace(pathname)
+  }
 
   return (
     <div className="w-full p-4 space-y-4 mt-20">
@@ -111,27 +103,31 @@ export default function FilterGames({
       <div>
         <h2 className="text-lg font-semibold">Platforms</h2>
         <div className="flex w-full gap-3 py-2 justify-center">
-          {platforms.map(({ logo, id, name }) => (
-            <Button
-              key={id}
-              variant="outline"
-              className={cn(
-                "relative",
-                selectedPlatforms.includes(id) ? "bg-gray-200" : ""
-              )}
-              size="lg"
-              onClick={() => handleSelectPlatforms(id)}
-            >
-              <span>
-                <Image
-                  src={logo}
-                  alt={name}
-                  fill={true}
-                  style={{ objectFit: "contain" }}
-                />
-              </span>
-            </Button>
-          ))}
+          {platforms.map((platform) => {
+            const logo = platform.logo as Media
+            const { id } = platform
+            return (
+              <Button
+                key={id}
+                variant="outline"
+                className={cn(
+                  'relative',
+                  selectedPlatforms.includes(String(id)) ? 'bg-gray-200' : '',
+                )}
+                size="lg"
+                onClick={() => handleSelectPlatforms(String(id))}
+              >
+                <span>
+                  <Image
+                    src={logo.url || ''}
+                    alt={logo.text || ''}
+                    fill={true}
+                    style={{ objectFit: 'contain' }}
+                  />
+                </span>
+              </Button>
+            )
+          })}
         </div>
       </div>
 
@@ -140,7 +136,7 @@ export default function FilterGames({
         <h2 className="text-lg font-semibold">Genre(s)</h2>
         <MultiSelect
           options={genres.map((genre) => ({
-            value: genre.id,
+            value: String(genre.id),
             label: genre.name,
           }))}
           onValueChange={handleSelectGenres}
@@ -156,7 +152,7 @@ export default function FilterGames({
         <h2 className="text-lg font-semibold">Publisher(s)</h2>
         <MultiSelect
           options={publishers.map((genre) => ({
-            value: genre.id,
+            value: String(genre.id),
             label: genre.name,
           }))}
           onValueChange={handleSelectPublishers}
@@ -172,7 +168,7 @@ export default function FilterGames({
         <h2 className="text-lg font-semibold">Developer(s)</h2>
         <MultiSelect
           options={developers.map((genre) => ({
-            value: genre.id,
+            value: String(genre.id),
             label: genre.name,
           }))}
           onValueChange={handleSelectDevelopers}
@@ -190,5 +186,5 @@ export default function FilterGames({
         </Button>
       </div>
     </div>
-  );
+  )
 }

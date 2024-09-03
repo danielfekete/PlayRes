@@ -2,11 +2,11 @@ import { listGamesMap } from '@/lib/functions'
 import payload from '@/lib/payload'
 
 export const getGames = async ({
-  name,
-  genres,
-  developers,
-  publishers,
-  platforms,
+  name = '',
+  genres = [],
+  developers = [],
+  publishers = [],
+  platforms = [],
 }: {
   name?: string
   genres?: string[]
@@ -26,17 +26,17 @@ export const getGames = async ({
         'genres.id': {
           in: genres,
         },
-        developer: {
+        'developer.id': {
           in: developers,
         },
-        publisher: {
+        'publisher.id': {
           in: publishers,
         },
-        platforms: {
+        'platforms.id': {
           in: platforms,
         },
       },
-      sort: 'name',
+      sort: '-firstReleaseDate',
     })
 
     return games.map(listGamesMap)

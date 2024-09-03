@@ -19,12 +19,12 @@ export default async function Games({
         <div className="grid grid-cols-4">
           {/* <div className="col-span-1"></div>
             <div className="col-span-3 space-y-4">Applied filters go here</div> */}
-          {/* <div className="col-span-1">
+          <div className="col-span-1">
             <Suspense fallback={<FilterGamesSkeleton />}>
               <FilterGamesWrapper />
             </Suspense>
             <AddYourGame />
-          </div> */}
+          </div>
           <div className="col-span-3 space-y-4">
             {/* <GamesPagination totalPages={totalPages} /> */}
             {/* A list of games */}

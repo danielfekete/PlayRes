@@ -22,6 +22,7 @@ export default function Showcase({ title, games }: ShowCaseProps) {
           <GameCard
             key={game.id}
             id={game.id}
+            rating={game.rating}
             img={game.coverImage}
             name={game.name}
             platforms={game.platforms}

@@ -81,6 +81,11 @@ export const GamesCollection: CollectionConfig = {
       defaultValue: [],
     },
     {
+      name: 'firstReleaseDate',
+      type: 'date',
+      required: false,
+    },
+    {
       name: 'releaseDates',
       type: 'array',
       fields: [
@@ -101,6 +106,7 @@ export const GamesCollection: CollectionConfig = {
           required: true,
         },
       ],
+      required: true,
       defaultValue: [],
     },
   ],

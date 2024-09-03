@@ -15,14 +15,17 @@ export default async function GamesList({
     platforms?: string | string[]
   }
 }) {
-  const games =
-    (await getGames({
-      name,
-      publishers: getArrayParamValue(publishers),
-      developers: getArrayParamValue(developers),
-      genres: getArrayParamValue(genres),
-      platforms: getArrayParamValue(platforms),
-    })) || []
+  const options = {
+    name,
+    publishers: getArrayParamValue(publishers),
+    developers: getArrayParamValue(developers),
+    genres: getArrayParamValue(genres),
+    platforms: getArrayParamValue(platforms),
+  }
+
+  const games = (await getGames(options)) || []
+
+  console.log(games, options)
 
   const totalPages = Math.ceil(games.length / 18)
 
@@ -35,6 +38,7 @@ export default async function GamesList({
           <GameCard
             key={game.id}
             id={game.id}
+            rating={game.rating}
             img={game.coverImage}
             name={game.name}
             platforms={game.platforms}
