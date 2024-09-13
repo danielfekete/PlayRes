@@ -34,7 +34,7 @@ export default function GamesPagination({ totalPages }: GamesPaginationProps) {
   }
 
   return (
-    <div className="mt-8 flex justify-center">
+    <div className="flex justify-center">
       <Pagination currentPage={currentPage} lastPage={totalPages}>
         <PaginationContent>
           <PaginationItem>

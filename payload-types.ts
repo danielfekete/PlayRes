@@ -15,12 +15,12 @@ export interface Config {
     game: Game;
     console: Console;
     information: Information;
-    performance: Performance;
     platform: Platform;
     media: Media;
     developer: Developer;
     publisher: Publisher;
     genre: Genre;
+    upscalingMethod: UpscalingMethod;
     users: User;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -80,7 +80,26 @@ export interface Game {
   publisher?: (number | null) | Publisher;
   platforms: (number | Platform)[];
   genres: (number | Genre)[];
-  performances?: (number | Performance)[] | null;
+  performances?:
+    | {
+        hdr?: boolean | null;
+        threeDAudio?: boolean | null;
+        updated?: string | null;
+        console: number | Console;
+        performanceModes: {
+          rayTracing?: boolean | null;
+          name: string;
+          frameRate: string;
+          minResolution: number;
+          maxResolution: number;
+          upscalingMethod?: (number | null) | UpscalingMethod;
+          notes?: string | null;
+          id?: string | null;
+        }[];
+        id?: string | null;
+      }[]
+    | null;
+  dfVideoId?: string | null;
   firstReleaseDate?: string | null;
   releaseDates: {
     date?: string | null;
@@ -166,23 +185,11 @@ export interface Genre {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "performance".
+ * via the `definition` "upscalingMethod".
  */
-export interface Performance {
+export interface UpscalingMethod {
   id: number;
-  hdr?: boolean | null;
-  threeDAudio?: boolean | null;
-  updated?: string | null;
-  console: number | Console;
-  gameId: number | Game;
-  performanceModes: {
-    name: string;
-    frameRate: string;
-    resolution: string;
-    rayTracing?: boolean | null;
-    upscalingMethod?: string | null;
-    id?: string | null;
-  }[];
+  name: string;
   updatedAt: string;
   createdAt: string;
 }

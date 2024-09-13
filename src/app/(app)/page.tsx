@@ -8,7 +8,7 @@ import CriticallyAcclaimed from '@/components/showcase/critically-acclaimed'
 
 export default async function Home() {
   return (
-    <div className="w-full">
+    <div className="w-full py-4">
       <Welcome />
       <div className="space-y-12 container py-4">
         {/* Showcases */}

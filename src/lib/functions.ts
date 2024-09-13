@@ -1,4 +1,4 @@
-import { Game, Media, Performance, Platform } from 'payload-types'
+import { Game, Media, Platform } from 'payload-types'
 
 export const FSR = 'FSR'
 export const RAY_TRACING = 'Ray Tracing'
@@ -12,11 +12,11 @@ export const getArrayParamValue = (param?: string | string[]) =>
   param ? (Array.isArray(param) ? param : [param]) : undefined
 
 export const listGamesMap = (game: Game) => {
-  let performances: Performance[] = []
+  let performances: Game['performances'] = []
 
   if (game.performances && game.performances.length > 0) {
     for (const perf of game.performances) {
-      if (typeof perf === 'number') {
+      if (!perf || typeof perf === 'number') {
         continue
       }
       performances.push(perf)
@@ -33,7 +33,7 @@ export const listGamesMap = (game: Game) => {
   }
 }
 
-export const getPerformanceTags = (performances: Performance[]) => {
+export const getPerformanceTags = (performances: Game['performances']) => {
   const tags = new Set<string>()
 
   if (!performances || !performances.length) {
@@ -41,6 +41,9 @@ export const getPerformanceTags = (performances: Performance[]) => {
   }
 
   for (const performance of performances) {
+    if (!performance) {
+      continue
+    }
     if (performance.hdr) {
       tags.add(HDR)
     }
@@ -55,7 +58,8 @@ export const getPerformanceTags = (performances: Performance[]) => {
     for (const performanceMode of performance.performanceModes) {
       if (
         performanceMode.upscalingMethod &&
-        performanceMode.upscalingMethod.toUpperCase().includes(FSR)
+        typeof performanceMode.upscalingMethod !== 'number' &&
+        performanceMode.upscalingMethod.name.toUpperCase().includes(FSR)
       ) {
         tags.add(FSR)
       }
@@ -65,7 +69,7 @@ export const getPerformanceTags = (performances: Performance[]) => {
       if (performanceMode.frameRate.toUpperCase().includes(SIXTY_FPS)) {
         tags.add(SIXTY_FPS)
       }
-      if (performanceMode.resolution.toUpperCase().includes('4K')) {
+      if (performanceMode.maxResolution === 2160) {
         tags.add(NATIVE_4k)
       }
     }

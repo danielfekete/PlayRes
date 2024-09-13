@@ -8,13 +8,17 @@ export default async function Games({
   searchParams,
 }: {
   searchParams?: {
+    page?: string
     name?: string
-    developerId?: string
-    publisherId?: string
+    genres?: string | string[]
+    developers?: string | string[]
+    publishers?: string | string[]
+    platforms?: string | string[]
+    sortBy?: string
   }
 }) {
   return (
-    <div className="px-24 bg-white z-50 container relative">
+    <div className="py-4 bg-white container relative">
       <div className="space-y-6">
         <div className="grid grid-cols-4">
           {/* <div className="col-span-1"></div>
@@ -30,7 +34,7 @@ export default async function Games({
             {/* A list of games */}
             {/* <GamesListSkeleton /> */}
             <Suspense fallback={<GamesListSkeleton />}>
-              <GamesList searchParams={searchParams} />
+              <GamesList searchParams={searchParams || {}} />
             </Suspense>
             {/* Bottom pagination */}
             {/* <GamesPagination totalPages={totalPages} /> */}

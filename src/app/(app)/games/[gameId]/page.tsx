@@ -12,6 +12,13 @@ export default async function Game({ params: { gameId } }: { params: { gameId: s
   console.log(JSON.stringify(data))
   if (!data) return <div>Game not found</div>
 
+  const getFormattedResolution = (minResolution: number, maxResolution: number) => {
+    if (minResolution === maxResolution) {
+      return `${minResolution}p`
+    }
+    return `${minResolution} - ${maxResolution}p`
+  }
+
   return (
     <div className="w-full max-w-5xl mx-auto px-4 md:px-6 py-12 space-y-4">
       <div className="flex gap-3">
@@ -98,12 +105,30 @@ export default async function Game({ params: { gameId } }: { params: { gameId: s
 
               return (
                 <div key={id} className="border border-gray-300 p-4 rounded-lg shadow-md">
-                  <div className="text-base font-medium">{console.name}</div>
+                  <div className="text-base font-medium flex items-center space-x-1">
+                    <Image
+                      src={`/${console.name.replaceAll(' ', '-')}-color.png`}
+                      alt={console.name}
+                      width={40}
+                      height={40}
+                    />
+                    <h3>{console.name}</h3>
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                     {performanceModes.map(
-                      ({ id, frameRate, resolution, rayTracing, upscalingMethod, name }) => (
+                      ({
+                        id,
+                        frameRate,
+                        minResolution,
+                        maxResolution,
+                        rayTracing,
+                        upscalingMethod,
+                        name,
+                      }) => (
                         <div key={id} className="px-4">
-                          <div className="text-base font-medium py-2">{name}</div>
+                          <div className="text-base font-medium py-2">
+                            <h3>{name}</h3>
+                          </div>
                           <div className="space-y-4">
                             <div>
                               <div className="text-base font-medium">Frame rate</div>
@@ -111,13 +136,15 @@ export default async function Game({ params: { gameId } }: { params: { gameId: s
                             </div>
                             <div>
                               <div className="text-base font-medium">Resolution</div>
-                              <div className="text-sm text-muted-foreground">{resolution}</div>
+                              <div className="text-sm text-muted-foreground">
+                                {getFormattedResolution(minResolution, maxResolution)}
+                              </div>
                             </div>
-                            {upscalingMethod ? (
+                            {upscalingMethod && typeof upscalingMethod !== 'number' ? (
                               <div>
                                 <div className="text-base font-medium">Upscaling method</div>
                                 <div className="text-sm text-muted-foreground">
-                                  {upscalingMethod}
+                                  {upscalingMethod.name}
                                 </div>
                               </div>
                             ) : null}
@@ -151,6 +178,15 @@ export default async function Game({ params: { gameId } }: { params: { gameId: s
           </>
         ) : null}
       </div>
+      {data.dfVideoId ? (
+        <div className="space-y-2">
+          <h3 className="text-2xl font-bold">Digital Foundry review</h3>
+          <iframe
+            className="w-full h-96"
+            src={`https://www.youtube.com/embed/${data.dfVideoId}?autoplay=0&mute=1`}
+          />
+        </div>
+      ) : null}
     </div>
   )
 }

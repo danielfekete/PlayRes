@@ -75,10 +75,81 @@ export const GamesCollection: CollectionConfig = {
     },
     {
       name: 'performances',
-      type: 'relationship',
-      relationTo: 'performance',
-      hasMany: true,
+      type: 'array',
+      fields: [
+        {
+          name: 'hdr',
+          type: 'checkbox',
+          defaultValue: false,
+        },
+        {
+          name: 'threeDAudio',
+          type: 'checkbox',
+          defaultValue: false,
+        },
+        {
+          name: 'updated',
+          type: 'date',
+          defaultValue: new Date(),
+        },
+        {
+          name: 'console',
+          type: 'relationship',
+          relationTo: 'console',
+          required: true,
+        },
+        {
+          name: 'performanceModes',
+          type: 'array',
+          fields: [
+            {
+              name: 'rayTracing',
+              type: 'checkbox',
+              defaultValue: false,
+            },
+            {
+              name: 'name',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'frameRate',
+              type: 'text',
+              required: true,
+            },
+            {
+              name: 'minResolution',
+              type: 'number',
+              required: true,
+            },
+            {
+              name: 'maxResolution',
+              type: 'number',
+              required: true,
+            },
+            {
+              name: 'upscalingMethod',
+              type: 'relationship',
+              relationTo: 'upscalingMethod',
+              required: false,
+            },
+            {
+              name: 'notes',
+              type: 'text',
+              required: false,
+            },
+          ],
+          defaultValue: [],
+          required: true,
+        },
+      ],
+      required: false,
       defaultValue: [],
+    },
+    {
+      name: 'dfVideoId',
+      type: 'text',
+      required: false,
     },
     {
       name: 'firstReleaseDate',

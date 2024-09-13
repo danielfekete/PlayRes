@@ -10,13 +10,13 @@ import { gameRequestsCollection } from '@/collections/game-request'
 import { GamesCollection } from '@/collections/game'
 import { consolesCollection } from '@/collections/console'
 import { informationsCollection } from '@/collections/information'
-import { performancesCollection } from '@/collections/performance'
 import { platformsCollection } from '@/collections/platform'
 import { MediaCollection } from '@/collections/media'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { DevelopersCollection } from '@/collections/developer'
 import { PublishersCollection } from '@/collections/publisher'
 import { GenresCollection } from '@/collections/genre'
+import { upscalingMethodsCollection } from '@/collections/upscaling-method'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -29,12 +29,12 @@ export default buildConfig({
     GamesCollection,
     consolesCollection,
     informationsCollection,
-    performancesCollection,
     platformsCollection,
     MediaCollection,
     DevelopersCollection,
     PublishersCollection,
     GenresCollection,
+    upscalingMethodsCollection,
   ],
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
